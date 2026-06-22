@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гормональный тип усталости — Energy Boost</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f3ef;color:#2a2a2a;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 48px}
+a{color:inherit}
+
+.hero{background:#1a1a2e;border-radius:16px;padding:34px 28px;margin-bottom:16px}
+.hero-tag{font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:18px}
+.hero-eyebrow{font-size:13px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.hero-title{font-size:32px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:14px}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;max-width:520px}
+
+.card{background:#fff;border-radius:16px;padding:26px 24px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.chapter-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#854F0B;margin-bottom:8px}
+.chapter-title{font-size:20px;font-weight:700;color:#1a1a2e;line-height:1.35;margin-bottom:16px}
+.p{font-size:15px;line-height:1.7;color:#333;margin-bottom:14px}
+.p:last-child{margin-bottom:0}
+ul.b{list-style:none;margin:0 0 14px 0;padding:0}
+ul.b li{font-size:15px;line-height:1.6;color:#333;padding:0 0 10px 22px;position:relative}
+ul.b li::before{content:'';position:absolute;left:4px;top:9px;width:6px;height:6px;border-radius:50%;background:#854F0B}
+ul.b li:last-child{padding-bottom:0}
+
+.callout{background:#FAC775;border-radius:12px;padding:16px 18px;margin-top:6px}
+.callout-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6B3E08;margin-bottom:6px}
+.callout-text{font-size:14.5px;line-height:1.6;color:#6B3E08}
+
+.factors{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.factors{grid-template-columns:1fr}}
+.factor{background:#faf9f7;border:1.5px solid #eee;border-radius:12px;padding:16px}
+.factor-num{font-size:11px;font-weight:700;color:#854F0B;letter-spacing:1px;margin-bottom:6px}
+.factor-title{font-size:14.5px;font-weight:700;color:#1a1a2e;margin-bottom:6px;line-height:1.3}
+.factor-text{font-size:13.5px;line-height:1.55;color:#555}
+
+.result-card{background:#1a1a2e;border-radius:16px;padding:26px 24px;margin-bottom:14px}
+.result-card .chapter-label{color:#854F0B}
+.result-card .chapter-title{color:#fff}
+.result-card ul.b li{color:rgba(255,255,255,0.75)}
+.result-card ul.b li::before{background:#854F0B}
+
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #f0f0f0}
+.tl-item:last-child{border-bottom:none;padding-bottom:0}
+.tl-day{flex-shrink:0;width:84px;font-size:13px;font-weight:700;color:#854F0B}
+.tl-text{font-size:14.5px;line-height:1.55;color:#333}
+
+.about-top{display:flex;gap:16px;align-items:center;margin-bottom:16px}
+.about-photo{flex-shrink:0;width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#854F0B,#6B3E08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;font-weight:700;overflow:hidden}
+.about-photo img{width:100%;height:100%;object-fit:cover}
+.about-name{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:3px}
+.about-cred{font-size:12.5px;color:#888;line-height:1.5}
+.about-bio .p{font-size:14px;line-height:1.65;color:#444;margin-bottom:12px}
+.placeholder-note{font-size:11px;color:#bbb;margin-top:10px;font-style:italic}
+
+.ladder-intro{padding:4px 4px 14px}
+.ladder-title{font-size:19px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
+.ladder-sub{font-size:13.5px;color:#777;line-height:1.55}
+
+.product{background:#fff;border-radius:16px;padding:22px 22px;margin-bottom:12px;border:1.5px solid #eee;position:relative}
+.product.tier1{border-color:#854F0B;background:#FAC7751A}
+.product.tier2{border-color:#e8845a;background:#fffaf7}
+.product.tier3{border-color:#1a1a2e;background:#f8f8fc}
+.product-badge{position:absolute;top:18px;right:18px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 9px;border-radius:6px}
+.badge-tier1{background:#FAC775;color:#6B3E08}
+.badge-tier2{background:#fff3ee;color:#e8845a}
+.badge-tier3{background:#1a1a2e;color:#fff}
+.product-icon{font-size:22px;margin-bottom:8px}
+.product-name{font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.product-title{font-size:18px;font-weight:700;color:#1a1a2e;line-height:1.3;margin-bottom:8px;max-width:80%}
+.product-desc{font-size:13.5px;color:#666;line-height:1.6;margin-bottom:12px}
+.product-includes{list-style:none;margin:0 0 16px 0;padding:0}
+.product-includes li{font-size:13.5px;color:#333;padding:0 0 7px 22px;position:relative;line-height:1.5}
+.product-includes li::before{content:'✓';position:absolute;left:0;top:0;color:#854F0B;font-weight:700}
+.product-price-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.product-price{font-size:24px;font-weight:700;color:#1a1a2e}
+.product-price span{font-size:13px;font-weight:400;color:#888}
+.btn-buy{display:inline-block;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s}
+.btn-buy-tier1{background:#854F0B;color:#fff}
+.btn-buy-tier1[disabled],.btn-buy-tier1.disabled{background:#ddd;color:#999;cursor:not-allowed;pointer-events:none}
+.btn-buy-tier2{background:#e8845a;color:#fff}
+.btn-buy-tier3{background:#1a1a2e;color:#fff}
+.tier1-gate{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px;font-size:12.5px;color:#555;line-height:1.5}
+.tier1-gate input{margin-top:3px;flex-shrink:0}
+.tier1-note{font-size:11.5px;color:#a66;margin-top:10px;line-height:1.5}
+
+.disclaimer{font-size:11.5px;line-height:1.7;color:#999;padding:18px 4px 0}
+.disclaimer b{color:#777}
+.disclaimer .d-block{margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-tag">Energy Boost · Результат диагностики</div>
+    <div class="hero-eyebrow">Ваш тип усталости</div>
+    <div class="hero-title">Гормональный</div>
+    <div class="hero-sub">Почему вес растёт и сладкое не отпускает — и как это устроено.</div>
+  </div>
+
+  <div class="card">
+    <div class="chapter-label">Глава 1</div>
+    <div class="chapter-title">Механика гормональной утомляемости</div>
+    <div class="p">Питание не менялось, а вес ползёт вверх. После обеда тянет на сладкое так, что сила воли не помогает. Настроение скачет без видимой причины — с утра всё нормально, к вечеру либо раздражение, либо апатия.</div>
+    <div class="p">Это не характер и не слабая дисциплина — это конкретный гормональный механизм, который называется инсулиновые качели.</div>
+    <div class="p"><b>Как это устроено на самом деле.</b> После еды с быстрыми углеводами глюкоза в крови резко поднимается. В ответ поджелудочная выбрасывает большую дозу инсулина чтобы вернуть сахар в норму. При регулярных скачках клетки начинают хуже реагировать на инсулин — развивается инсулинорезистентность, и телу требуется всё больше инсулина чтобы протолкнуть ту же глюкозу. Запускается цикл: скачок сахара → выброс инсулина → резкое падение сахара → тяга к сладкому → новый скачок.</div>
+    <div class="p">Хронически повышенный инсулин даёт два дополнительных эффекта:</div>
+    <ul class="b"><li>он напрямую сигналит телу запасать жир, особенно в области живота — независимо от количества калорий</li><li>он подавляет выработку прогестерона и усиливает относительное преобладание эстрогена — отсюда отёки, перепады настроения, нестабильный цикл</li></ul>
+    <div class="p">Третий слой — печень и кишечник, которые должны выводить избыток эстрогена, перегружены этим же инсулиновым стрессом и работают медленнее.</div>
+    <div class="callout">
+      <div class="callout-label">Что нужно сделать</div>
+      <div class="callout-text">Не «меньше есть» и не «больше двигаться» в общем смысле — а разорвать инсулиновые качели через то, что и как ты ешь, и поддержать вывод избытка эстрогена через печень и кишечник.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="chapter-label">Глава 2</div>
+    <div class="chapter-title">Три рычага глюкозного тормоза</div>
+    <div class="p">Скорость и высота скачка инсулина зависит не только от того что ты ешь, но и в каком порядке, с чем и в какой момент дня. Это и есть точка входа в систему — без лекарств и без жёстких диет.</div>
+    <div class="p">Внутри этого принципа — три конкретных рычага: с чего начинается твой день, в каком порядке ты ешь, и что делает твоё тело сразу после еды. Точная настройка каждого — сколько белка, какой порядок продуктов и сколько двигаться — зависит от твоего меню и графика, и подбирается индивидуально.</div>
+  </div>
+
+  <div class="card">
+    <div class="chapter-label">Глава 3</div>
+    <div class="chapter-title">Четыре фактора фиксации гормонального баланса</div>
+    <div class="factors">
+      <div class="factor">
+        <div class="factor-num">01</div>
+        <div class="factor-title">Инсулиновая чувствительность</div>
+        <div class="factor-text">Что и в каком порядке ты ешь — главный рычаг управления скачками инсулина. Частота приёмов пищи и нутрицевтическая поддержка усиливают эффект.</div>
+      </div>
+      <div class="factor">
+        <div class="factor-num">02</div>
+        <div class="factor-title">Детокс эстрогена</div>
+        <div class="factor-text">Определённые продукты помогают печени и кишечнику выводить избыток эстрогена, другие — перегружают этот процесс.</div>
+      </div>
+      <div class="factor">
+        <div class="factor-num">03</div>
+        <div class="factor-title">Кортизол-инсулиновый перекрёст</div>
+        <div class="factor-text">Жёсткие ограничения в еде и недосып поднимают кортизол, а он усиливает инсулинорезистентность — даже если выглядит как «дисциплина».</div>
+      </div>
+      <div class="factor">
+        <div class="factor-num">04</div>
+        <div class="factor-title">Движение и магний</div>
+        <div class="factor-text">Тип нагрузки важен не меньше чем её наличие — избыточное кардио при этом типе работает против восстановления.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="chapter-label">⚡ Результат</div>
+    <div class="chapter-title">Вес и настроение становятся предсказуемыми</div>
+    <ul class="b"><li>Тяга к сладкому после обеда перестаёт быть единственным способом получить энергию</li><li>Вес начинает двигаться при тех же усилиях, а не стоит на месте месяцами</li><li>Перепады настроения становятся редкими и предсказуемыми, а не внезапными</li><li>Отёки, особенно вечерние, заметно уменьшаются</li></ul>
+  </div>
+
+  <div class="card">
+    <div class="chapter-label">⏳ Сроки и динамика</div>
+    <div class="chapter-title">Как меняется состояние по дням</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-day">День 3–5</div>
+        <div class="tl-text">снижение тяги к сладкому после обеда, более стабильная энергия между приёмами пищи</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">День 10–14</div>
+        <div class="tl-text">уменьшение отёков, более ровное настроение в течение дня</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">День 21–30</div>
+        <div class="tl-text">видимые изменения в составе тела, более предсказуемый цикл и самочувствие перед ним</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="about-top">
+      <div class="about-photo"><img src="data:image/jpeg;base64,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" alt="Зауре Нагим"></div>
+      <div>
+        <div class="about-name">Зауре Нагим</div>
+        <div class="about-cred">Автор книги «Что? Сколько? Когда?» · Health coach функциональной медицины · Нутрициолог</div>
+      </div>
+    </div>
+    <div class="about-bio">
+      <div class="p">Я автор книги «Что? Сколько? Когда?», health coach функциональной медицины и нутрициолог. Более 15 лет работаю в теме восстановления здоровья, снижения веса и повышения энергии — за это время более 5000 человек прошли мои курсы и мастер-классы, свыше 1000 получили индивидуальные консультации.</div>
+      <div class="p">Сегодня многие живут в состоянии хронической усталости, нарушенного сна, стресса и истощения нервной системы. В этих условиях любые изменения требуют чрезмерных усилий и быстро срываются. Особенно тупиковым оказывается подход через силу воли: человек заставляет себя «быть здоровым», но только усиливает внутреннее сопротивление и усталость.</div>
+      <div class="p">Я работаю иначе — через восстановление физиологии, а не через ограничения. Когда нормализуются сон, стресс-реакции и энергетический обмен, здоровый образ жизни становится естественным, а не вынужденным.</div>
+      <div class="p">Результаты моих клиентов: снижение веса, восстановление энергии и сна, улучшение самочувствия и в ряде случаев — восстановление гормонального здоровья.</div>
+    </div>
+    </div>
+
+  <div class="ladder-intro">
+    <div class="ladder-title">Ты понимаешь систему. Выбери, что нужно дальше</div>
+    <div class="ladder-sub">Три варианта — от готового шаблона до личного разбора с тобой. Цена растёт вместе с долей персональной работы.</div>
+  </div>
+
+  <div class="product tier1">
+    <div class="product-badge badge-tier1">Шаблон</div>
+    <div class="product-icon">⚡</div>
+    <div class="product-name">Тактический протокол</div>
+    <div class="product-title">Гормональный тип: по граммам и порядку</div>
+    <div class="product-desc">Тот же протокол выше, но с цифрами: состав первого приёма пищи, порядок продуктов, дозировки. Шаблон под тип, не под твою личную историю.</div>
+    <ul class="product-includes"><li>Точный состав и порядок первого приёма пищи</li><li>Порядок продуктов на тарелке — по шагам</li><li>Дозировки нутрицевтической поддержки (берберин, хром, магний)</li><li>Сколько и когда двигаться после еды</li><li>Ожидаемые сроки изменений по дням</li></ul>
+    <div class="product-price-row">
+      <div class="product-price">5 000 <span>₸</span></div>
+      <a id="buy-hormonal" class="btn-buy btn-buy-tier1" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить протокол →</a>
+    </div>
+    <div class="tier1-note">Доставляется автоматически сразу после оплаты — без проверки твоей конкретной истории.</div>
+  </div>
+
+  <div class="product tier2">
+    <div class="product-badge badge-tier2">Популярный</div>
+    <div class="product-icon">📝</div>
+    <div class="product-name">Персональный разбор</div>
+    <div class="product-title">Персональный разбор: Гормональный тип</div>
+    <div class="product-desc">Заполняешь анкету — получаешь письменный протокол гормонального восстановления в течение 48 часов. Питание, нутрицевтики для эндокринной системы, режим — под тебя. Без звонков.</div>
+    <ul class="product-includes">
+      <li>Анкета из 10 вопросов о твоей истории и образе жизни</li>
+      <li>Письменный протокол под твой тип усталости — в течение 48 часов</li>
+      <li>Питание: что есть, что убрать, в какое время</li>
+      <li>Нутрицевтики с конкретными дозировками под твой тип</li>
+      <li>Режим дня и сна — схема на 2 недели</li>
+      <li>Ответы на 3 уточняющих вопроса после получения протокола</li>
+    </ul>
+    <div class="product-price-row">
+      <div class="product-price">25 000 <span>₸</span></div>
+      <a class="btn-buy btn-buy-tier2" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить разбор →</a>
+    </div>
+  </div>
+
+  <div class="product tier3">
+    <div class="product-badge badge-tier3">Максимум</div>
+    <div class="product-icon">🎯</div>
+    <div class="product-name">Индивидуальный разбор</div>
+    <div class="product-title">Личный созвон + протокол на 4 недели</div>
+    <div class="product-desc">60-минутный созвон: разбираем твой тест и картину симптомов, ты получаешь гормональный протокол восстановления на 4 недели — питание, нутрицевтики, режим.</div>
+    <ul class="product-includes">
+      <li>60 минут разбора один на один</li>
+      <li>Анализ результатов теста + трекера привычек</li>
+      <li>Персональный протокол на 4 недели письменно</li>
+      <li>Питание, нутрицевтики, режим — под тебя конкретно</li>
+      <li>Запись созвона остаётся у тебя</li>
+      <li>Ответы на вопросы в течение 7 дней после</li>
+    </ul>
+    <div class="product-price-row">
+      <div class="product-price">80 000 <span>₸</span></div>
+      <a class="btn-buy btn-buy-tier3" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Записаться →</a>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <div class="d-block"><b>Противопоказания:</b> при диагностированных заболеваниях щитовидной железы, синдроме поликистозных яичников (СПКЯ), сахарном диабете, приёме гормональных контрацептивов или гормонозаместительной терапии, а также в период беременности и грудного вскармливания — протокол применяется только после консультации с врачом или эндокринологом.</div>
+    <div class="d-block"><b>Медицинский отказ от ответственности:</b> данный материал носит исключительно информационный характер и не является заменой профессиональной медицинской консультации, диагностики или лечения. Перед началом программы и приёмом нутрицевтиков проконсультируйтесь со своим лечащим врачом. Автор не несёт ответственности за любые изменения самочувствия.</div>
+    <div class="d-block"><b>Безопасность:</b> при появлении выраженной слабости, головокружения или других признаков резкого падения сахара в крови — немедленно принять быстрый углевод и обратиться к врачу. Изменение схемы приёма гормональных препаратов проводится только по согласованию с лечащим врачом.</div>
+  </div>
+
+</div>
+</body>
+</html>

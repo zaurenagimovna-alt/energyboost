@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Boost — Диагностика энергии</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f3ef;min-height:100vh;padding:16px}
+.wrap{max-width:560px;margin:0 auto;padding-bottom:40px}
+.hero{background:#1a1a2e;border-radius:16px;padding:28px 24px;margin-bottom:16px}
+.hero-tag{font-size:11px;font-weight:600;letter-spacing:2px;color:#e8845a;text-transform:uppercase;margin-bottom:10px}
+.hero-title{font-size:26px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:8px}
+.hero-sub{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.progress-meta{display:flex;justify-content:space-between;margin-bottom:8px}
+.progress-label{font-size:12px;color:#888}
+.progress-bar{height:4px;background:#eee;border-radius:2px;margin-bottom:20px}
+.progress-fill{height:4px;background:#e8845a;border-radius:2px;transition:width 0.4s}
+.section-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:8px;margin-bottom:12px}
+.q-text{font-size:16px;font-weight:600;color:#1a1a2e;line-height:1.5;margin-bottom:6px}
+.q-hint{font-size:13px;color:#888;margin-bottom:16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;border:1.5px solid #eee;border-radius:12px;cursor:pointer;transition:all 0.15s;background:#fff}
+.opt:hover{border-color:#e8845a;background:#fff8f4}
+.opt.selected{border-color:#e8845a;background:#fff8f4}
+.opt-dot{width:20px;height:20px;border-radius:50%;border:2px solid #ddd;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.opt.selected .opt-dot{border-color:#e8845a;background:#e8845a}
+.opt.selected .opt-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:white}
+.opt-text{font-size:14px;color:#2a2a2a;line-height:1.5}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.btn{padding:13px 20px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:1.5px solid #ddd;background:#fff;color:#333;transition:all 0.15s;flex:1}
+.btn:hover{background:#f5f5f5}
+.btn-primary{background:#1a1a2e;color:white;border-color:#1a1a2e}
+.btn-primary:hover{background:#2a2a4e}
+.btn-primary:disabled{opacity:0.3;cursor:not-allowed}
+.btn-orange{background:#e8845a;color:white;border-color:#e8845a;width:100%;padding:15px;font-size:16px}
+.btn-orange:hover{background:#d4724a}
+.result-header{background:#1a1a2e;border-radius:16px;padding:24px;margin-bottom:12px}
+.score-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px}
+.score-row{display:flex;align-items:flex-end;gap:8px;margin-bottom:12px}
+.score-big{font-size:60px;font-weight:700;color:#e8845a;line-height:1}
+.score-max{font-size:18px;color:rgba(255,255,255,0.3);margin-bottom:10px}
+.score-bar-bg{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:16px}
+.score-bar-fill{height:8px;border-radius:4px;background:#e8845a;transition:width 1.2s}
+.type-badge{display:inline-block;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:10px}
+.type-desc{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6}
+.zones-title{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.zone-card{background:#fff;border-radius:12px;padding:12px;border:1.5px solid #eee}
+.zone-name{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.zone-score{font-size:22px;font-weight:700;margin-bottom:6px}
+.zone-bar{height:3px;border-radius:2px}
+.recs-title{font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:12px}
+.rec-section{margin-bottom:16px}
+.rec-section-title{font-size:12px;font-weight:600;color:#e8845a;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.rec-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.rec-item:last-child{border-bottom:none}
+.rec-dot{width:6px;height:6px;border-radius:50%;background:#e8845a;flex-shrink:0;margin-top:6px}
+.rec-text{font-size:14px;color:#333;line-height:1.5}
+.screen{display:none}
+.screen.active{display:block}
+
+/* ── SALES BLOCK ── */
+.sales-block{margin-top:12px}
+.sales-intro{background:#1a1a2e;border-radius:16px;padding:22px 20px;margin-bottom:12px}
+.sales-intro-tag{font-size:11px;font-weight:700;letter-spacing:2px;color:#e8845a;text-transform:uppercase;margin-bottom:8px}
+.sales-intro-title{font-size:20px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:8px}
+.sales-intro-sub{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.65}
+.sales-intro-sub strong{color:#e8845a;font-weight:600}
+
+.bridge-card{background:#1a1a2e;border-radius:16px;padding:26px 22px;margin-bottom:4px}
+.bridge-tag{font-size:11px;font-weight:700;letter-spacing:2px;color:#e8845a;text-transform:uppercase;margin-bottom:10px}
+.bridge-title{font-size:20px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px}
+.bridge-sub{font-size:13.5px;color:rgba(255,255,255,0.6);line-height:1.65;margin-bottom:18px}
+.btn-bridge{display:block;text-align:center;padding:15px;border-radius:12px;font-size:15px;font-weight:700;background:#e8845a;color:#fff;text-decoration:none}
+.btn-bridge:hover{background:#d4724a}
+
+.balanced-card{background:#fff;border:1.5px solid #eee;border-radius:16px;padding:24px 22px}
+.balanced-tag{font-size:11px;font-weight:700;letter-spacing:2px;color:#1D9E75;text-transform:uppercase;margin-bottom:10px}
+.balanced-title{font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:10px;line-height:1.35}
+.balanced-text{font-size:14px;line-height:1.7;color:#444;margin-bottom:14px}
+.balanced-link{display:inline-block;font-size:14px;font-weight:700;color:#e8845a;text-decoration:none}
+.balanced-link:hover{text-decoration:underline}
+
+.product-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.product-card{background:#fff;border-radius:16px;padding:20px;border:1.5px solid #eee;position:relative;overflow:hidden}
+.product-card.featured{border-color:#e8845a;background:#fffaf7}
+.product-card.premium{border-color:#1a1a2e;background:#f8f8fc}
+.product-badge{position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:6px}
+.badge-popular{background:#fff3ee;color:#e8845a}
+.badge-max{background:#1a1a2e;color:#fff}
+.product-icon{font-size:22px;margin-bottom:10px}
+.product-name{font-size:13px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.product-title{font-size:18px;font-weight:700;color:#1a1a2e;line-height:1.3;margin-bottom:8px}
+.product-desc{font-size:13px;color:#666;line-height:1.6;margin-bottom:12px}
+.product-includes{list-style:none;padding:0;margin:0 0 14px 0;display:flex;flex-direction:column;gap:5px}
+.product-includes li{font-size:13px;color:#333;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.product-includes li::before{content:'✓';color:#e8845a;font-weight:700;flex-shrink:0;margin-top:0px}
+.product-price-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.product-price{font-size:26px;font-weight:700;color:#1a1a2e}
+.product-price span{font-size:14px;font-weight:400;color:#888}
+.product-price.price-featured{color:#e8845a}
+.btn-buy{display:inline-block;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s}
+.btn-buy-outline{background:#fff;color:#1a1a2e;border:1.5px solid #ddd}
+.btn-buy-outline:hover{border-color:#1a1a2e}
+.btn-buy-orange{background:#e8845a;color:#fff}
+.btn-buy-orange:hover{background:#d4724a}
+.after-pay-hint{font-size:13px;color:#fff;margin-top:10px;text-align:center;background:#25D366;border-radius:10px;padding:10px 14px;display:none}
+.after-pay-hint a{color:#fff;font-weight:700;text-decoration:none}
+.after-pay-hint.visible{display:block}
+.btn-buy-dark:hover{background:#2a2a4e}
+
+.sales-guarantee{background:#f5f3ef;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:4px}
+.sales-guarantee-icon{font-size:20px;flex-shrink:0}
+.sales-guarantee-text{font-size:12px;color:#666;line-height:1.6}
+.sales-guarantee-text strong{color:#333;display:block;margin-bottom:2px}
+
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:13px;font-weight:600;color:#555;margin-bottom:6px}
+.form-input{width:100%;padding:13px 15px;border:1.5px solid #eee;border-radius:12px;font-size:15px;font-family:inherit;transition:all 0.15s;background:#fff}
+.form-input:focus{outline:none;border-color:#e8845a;background:#fff8f4}
+.form-input::placeholder{color:#aaa}
+.form-error{font-size:12px;color:#E24B4A;margin-top:4px;display:none}
+.form-hint{font-size:12px;color:#888;margin-top:4px}
+.submit-status{font-size:13px;padding:12px;border-radius:8px;margin-bottom:12px;display:none}
+.submit-status.success{background:#E1F5EE;color:#0F6E56;border:1px solid #0F6E56}
+.submit-status.error{background:#F5C4B3;color:#993C1D;border:1px solid #993C1D}
+.user-info-bar{background:#1a1a2e;border-radius:12px;padding:12px 16px;margin-bottom:12px;color:#fff;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.user-info-bar span{color:rgba(255,255,255,0.6)}
+.user-info-bar strong{color:#e8845a;font-weight:600}
+.change-user-btn{background:rgba(255,255,255,0.1);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer}
+.change-user-btn:hover{background:rgba(255,255,255,0.2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="s-intro" class="screen active">
+  <div class="hero">
+    <div class="hero-tag">Energy Boost · Биодиагностика</div>
+    <div class="hero-title">Тест уровня энергии</div>
+    <div class="hero-sub">27 вопросов · 7 биомаркерных зон · ~5 минут<br>Узнаешь свой Energy Score и тип усталости</div>
+  </div>
+  <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px">
+    <div>
+      <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Зоны анализа</div>
+      <div style="font-size:13px;color:#333;line-height:1.9">Сон · Питание<br>Стресс · Движение<br>Гормоны · Когниция<br>Витальность</div>
+    </div>
+    <div>
+      <div style="font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Результат</div>
+      <div style="font-size:13px;color:#333;line-height:1.9">Energy Score<br>Тип усталости<br>Приоритеты<br>Рекомендации</div>
+    </div>
+  </div>
+  <button class="btn-orange" style="border-radius:12px;margin-top:4px" onclick="goToUserData()">Начать диагностику</button>
+</div>
+
+<div id="s-userdata" class="screen">
+  <div class="hero">
+    <div class="hero-tag">Шаг 1 из 2</div>
+    <div class="hero-title">Твои данные</div>
+    <div class="hero-sub">Заполни контакты, чтобы мы сохранили твой результат и могли отправить персональные рекомендации</div>
+  </div>
+  <div class="card">
+    <div class="form-group">
+      <label class="form-label" for="u-name">Имя</label>
+      <input class="form-input" id="u-name" type="text" placeholder="Анна" autocomplete="name">
+      <div class="form-error" id="err-name">Введите имя</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="u-age">Возраст</label>
+      <input class="form-input" id="u-age" type="number" placeholder="35" min="10" max="100" autocomplete="off">
+      <div class="form-error" id="err-age">Введите возраст от 10 до 100</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="u-email">Email</label>
+      <input class="form-input" id="u-email" type="email" placeholder="anna@email.com" autocomplete="email">
+      <div class="form-error" id="err-email">Введите корректный email</div>
+      <div class="form-hint">На этот адрес можно отправить детальный протокол восстановления</div>
+    </div>
+    <div class="nav" style="margin-top:8px">
+      <button class="btn" onclick="showScreen('s-intro')">Назад</button>
+      <button class="btn btn-primary" onclick="saveUserData()">Продолжить →</button>
+    </div>
+  </div>
+</div>
+
+<div id="s-question" class="screen">
+  <div id="user-bar" class="user-info-bar" style="display:none">
+    <div><span id="user-bar-name"></span> <strong id="user-bar-email"></strong></div>
+    <button class="change-user-btn" onclick="changeUser()">Сменить</button>
+  </div>
+  <div class="card">
+    <div class="progress-meta">
+      <span class="progress-label" id="q-section"></span>
+      <span class="progress-label" id="q-counter"></span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="section-badge" id="q-badge"><span id="q-badge-text"></span></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-hint" id="q-hint" style="display:none"></div>
+    <div class="opts" id="opts"></div>
+    <div class="nav">
+      <button class="btn" id="btn-back" onclick="goBack()">Назад</button>
+      <button class="btn btn-primary" id="btn-next" onclick="goNext()" disabled>Далее →</button>
+    </div>
+  </div>
+</div>
+
+<div id="s-result" class="screen">
+  <div class="result-header">
+    <div class="score-label">Твой Energy Score</div>
+    <div class="score-row">
+      <div class="score-big" id="r-score">0</div>
+      <div class="score-max">/100</div>
+    </div>
+    <div class="score-bar-bg"><div class="score-bar-fill" id="r-bar" style="width:0%"></div></div>
+    <div class="type-badge" id="r-type-badge"></div>
+    <div class="type-desc" id="r-type-desc"></div>
+  </div>
+  <div class="card">
+    <div class="zones-title">Зоны энергии</div>
+    <div class="zones" id="r-zones"></div>
+  </div>
+  <div class="card">
+    <div class="recs-title" id="type-detail-title">Что происходит в твоём теле</div>
+    <div id="r-recs"></div>
+  </div>
+  <div id="submit-status" class="submit-status"></div>
+
+  <!-- BRIDGE TO TYPE LANDING PAGE -->
+  <div class="sales-block">
+    <div class="bridge-card" id="bridge-card">
+      <div class="bridge-tag">Дальше</div>
+      <div class="bridge-title" id="bridge-title">Почему ты устаёшь — и что с этим делать</div>
+      <div class="bridge-sub">Полный разбор твоего типа усталости: механика, 4 рычага восстановления и три варианта что делать дальше — от готового шаблона до личного разбора со мной.</div>
+      <a id="bridge-link" class="btn-bridge" href="#">Читать полный разбор →</a>
+    </div>
+    <div class="balanced-card" id="balanced-card" style="display:none">
+      <div class="balanced-tag">Твой результат</div>
+      <div class="balanced-title">Ты в хорошей форме — продолжай в том же духе</div>
+      <div class="balanced-text">У тебя нет критических сбоев в ключевых системах. Большинство людей с похожим ритмом жизни чувствуют себя значительно хуже. Чтобы удержать этот уровень — высыпайся, двигайся каждый день и не пропускай приёмы пищи. Этого достаточно.</div>
+      <div class="balanced-text">Если захочешь системно выйти на максимум — не просто «нормально», а стабильно высокий тонус — пиши, обсудим что подойдёт.</div>
+      <a class="balanced-link" href="https://wa.me/77759981592" target="_blank">Написать в WhatsApp →</a>
+    </div>
+  </div>
+  <!-- END BRIDGE -->
+
+  <button class="btn-orange" style="border-radius:12px;margin-top:16px" onclick="restartTest()">Пройти ещё раз</button>
+</div>
+
+</div>
+<script>
+
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7IsxrLmoq8Z5bvW9TdiI34v1qGzTldT_z1kOD0pVUjNPVQx9NG0WXAJu2ft-FQJg/exec';
+
+const SECTIONS=[
+  {id:'sleep',label:'Сон',color:'#534AB7',bg:'#EEEDFE'},
+  {id:'nutrition',label:'Питание',color:'#0F6E56',bg:'#E1F5EE'},
+  {id:'stress',label:'Стресс',color:'#993C1D',bg:'#F5C4B3'},
+  {id:'movement',label:'Движение',color:'#185FA5',bg:'#B5D4F4'},
+  {id:'hormones',label:'Гормоны',color:'#854F0B',bg:'#FAC775'},
+  {id:'cognition',label:'Когниция',color:'#3B6D11',bg:'#C0DD97'},
+  {id:'vitality',label:'Витальность',color:'#993556',bg:'#F4C0D1'},
+];
+const QS=[
+  {s:'sleep',q:'Сколько часов ты спишь в среднем за ночь?',opts:[['Меньше 5 часов',0],['5–6 часов',1],['6–7 часов',2],['7–8 часов',3],['Больше 8 часов',2]]},
+  {s:'sleep',q:'Как ты просыпаешься по утрам?',opts:[['Тяжело, нужен будильник несколько раз',0],['Встаю с трудом, долго раскачиваюсь',1],['Нормально, но без бодрости',2],['Просыпаюсь сам, чувствую себя отдохнувшим',3]]},
+  {s:'sleep',q:'Ты засыпаешь в течение 20 минут после того как ложишься?',opts:[['Нет, лежу больше часа',0],['Иногда, часто нет',1],['Обычно да, но бывают сложные ночи',2],['Да, почти всегда',3]]},
+  {s:'sleep',q:'Просыпаешься ли ты ночью и с трудом засыпаешь снова?',opts:[['Да, почти каждую ночь',0],['Несколько раз в неделю',1],['Редко',2],['Практически никогда',3]]},
+  {s:'nutrition',q:'Как выглядит твой завтрак?',hint:'Первый приём пищи после пробуждения',opts:[['Пропускаю или только кофе',0],['Сладкое — каша, йогурт с сахаром, булка',1],['Смешанный — что есть в холодильнике',2],['Белковый — яйца, творог, рыба',3]]},
+  {s:'nutrition',q:'Сколько кофе или кофеиносодержащих напитков ты пьёшь в день?',opts:[['Больше 3 чашек',0],['2–3 чашки',1],['1 чашку',2],['Не пью совсем',3]]},
+  {s:'nutrition',q:'В котором часу ты обычно ужинаешь?',opts:[['После 21:00',0],['19:00–21:00',1],['18:00–19:00',2],['До 18:00',3]]},
+  {s:'stress',q:'Как ты оцениваешь уровень стресса прямо сейчас?',opts:[['Очень высокий, постоянное напряжение',0],['Высокий, тяжело расслабиться',1],['Средний, справляюсь но устаю',2],['Низкий, чувствую себя спокойно',3]]},
+  {s:'stress',q:'Есть ли ощущение что ты не можешь выключиться даже вечером?',opts:[['Да, постоянно прокручиваю мысли',0],['Часто',1],['Иногда',2],['Нет, умею отключаться',3]]},
+  {s:'stress',q:'Как ты реагируешь на неожиданные проблемы — пробки, задержки, конфликты?',opts:[['Сильная тревога, трудно успокоиться',0],['Заметный дискомфорт, долго переживаю',1],['Реагирую, но быстро прихожу в норму',2],['Спокойно, не трачу энергию на это',3]]},
+  {s:'stress',q:'Бывают ли тревожные мысли перед сном или сразу после пробуждения?',opts:[['Да, регулярно',0],['Иногда',1],['Редко',2],['Нет',3]]},
+  {s:'movement',q:'Как часто ты двигаешься — ходьба, тренировки, активность?',opts:[['Практически нет физической активности',0],['1–2 раза в неделю',1],['3–4 раза в неделю',2],['Каждый день',3]]},
+  {s:'movement',q:'Ты делаешь прогулки после еды или в течение дня?',opts:[['Нет',0],['Иногда, нерегулярно',1],['Несколько раз в неделю',2],['Да, это часть моего дня',3]]},
+  {s:'movement',q:'Как ты чувствуешь себя после физической активности?',opts:[['Сильно устаю, долго восстанавливаюсь',0],['Устаю, но потом немного лучше',1],['Чувствую подъём сил',2],['Отличный заряд, явно больше энергии',3]]},
+  {s:'movement',q:'Сколько часов в день ты проводишь сидя без движения?',opts:[['Больше 10 часов',0],['8–10 часов',1],['5–8 часов',2],['Меньше 5 часов',3]]},
+  {s:'hormones',q:'Есть ли ощущение что раньше восстанавливался быстрее — после стресса, болезни, недосыпа?',opts:[['Да, сейчас гораздо медленнее',0],['Заметно медленнее',1],['Чуть медленнее',2],['Восстанавливаюсь так же быстро',3]]},
+  {s:'hormones',q:'Как меняется твой вес при одинаковом питании?',opts:[['Набираю легко, сбросить очень тяжело',0],['Есть тенденция к набору',1],['Вес относительно стабилен',2],['Стабилен, хорошо регулируется',3]]},
+  {s:'hormones',q:'Как ты переносишь холод или жару по сравнению с окружающими?',opts:[['Мёрзну или потею значительно больше других',0],['Заметно некомфортно',1],['Небольшая разница',2],['Переношу нормально',3]]},
+  {s:'hormones',q:'Есть ли перепады настроения без очевидной причины — раздражительность, апатия?',opts:[['Да, часто и непредсказуемо',0],['Бывает, несколько раз в неделю',1],['Редко',2],['Настроение стабильное',3]]},
+  {s:'cognition',q:'Как ты оцениваешь свою концентрацию и способность удерживать фокус?',opts:[['Туман в голове, трудно сосредоточиться',0],['Часто отвлекаюсь, требуется усилие',1],['Нормально, но к вечеру хуже',2],['Хорошая концентрация в течение дня',3]]},
+  {s:'cognition',q:'Как часто ты забываешь простые вещи — слова, имена, что хотел сделать?',opts:[['Очень часто, это стало нормой',0],['Несколько раз в день',1],['Иногда',2],['Редко',3]]},
+  {s:'cognition',q:'В какое время суток у тебя лучше всего работает голова?',hint:'Это помогает определить циркадный ритм',opts:[['Почти никогда не чувствую ясности',0],['Только утром, после кофе',1],['Утром и иногда вечером',2],['Есть стабильное окно продуктивности',3]]},
+  {s:'cognition',q:'Как ты себя чувствуешь к 15:00–16:00?',opts:[['Полная яма — хочется спать, нет сил',0],['Заметный спад, нужен кофе или сахар',1],['Небольшое снижение',2],['Энергия стабильна',3]]},
+  {s:'vitality',q:'Как ты оцениваешь своё желание и интерес к жизни по сравнению с тем как было 3–5 лет назад?',opts:[['Значительно снизилось',0],['Заметно меньше',1],['Примерно так же',2],['Такое же или больше',3]]},
+  {s:'vitality',q:'Как часто ты чувствуешь себя по-настоящему живым и наполненным?',opts:[['Практически никогда',0],['Редко, в отдельные дни',1],['Несколько раз в неделю',2],['Большую часть времени',3]]},
+  {s:'vitality',q:'Есть ли ощущение что ты живёшь на 50–60% от своего потенциала?',opts:[['Да, и это меня давно беспокоит',0],['Скорее да',1],['Иногда так кажется',2],['Нет, чувствую что реализую себя',3]]},
+  {s:'vitality',q:'Что происходит с твоим желанием делать что-то новое, учиться, рисковать?',opts:[['Оно почти исчезло',0],['Значительно меньше чем раньше',1],['Бывает периодически',2],['Есть, это меня заряжает',3]]},
+];
+const TYPES={
+  adrenal:{label:'Надпочечниковый тип',badge:'#993C1D',bbg:'#F5C4B3',desc:'Хронический стресс истощил надпочечники. Утром тяжело встать, вечером невозможно выключиться. Тело застряло в режиме выживания — кортизол разбалансирован.'},
+  mito:{label:'Митохондриальный тип',badge:'#534AB7',bbg:'#CECBF6',desc:'Энергетические станции клеток работают неэффективно. Дефицит NAD+, CoQ10 и магния. Ты устаёшь от того что раньше давалось легко — это клеточное, а не психологическое истощение.'},
+  hormonal:{label:'Гормональный тип',badge:'#854F0B',bbg:'#FAC775',desc:'Гормональный дисбаланс тянет энергию вниз. Перепады настроения, нестабильный вес, замедленное восстановление — эндокринная система требует поддержки.'},
+  balanced:{label:'Сбалансированный тип',badge:'#0F6E56',bbg:'#9FE1CB',desc:'Твои системы работают слаженно. Нет критических сбоев в ключевых зонах — это хороший результат сам по себе.'},
+};
+const TYPE_DETAIL={
+  adrenal:{
+    picture:[
+      'Утром тело не хочет вставать — не потому что не выспался, а потому что надпочечники не дают нормального кортизольного подъёма. Ты берёшь себя в руки усилием воли.',
+      'К вечеру — второе дыхание. Когда все уже спят, ты наконец чувствуешь себя живым. Это не совпадение — это признак инвертированного кортизольного ритма.',
+      'Тело постоянно в режиме ожидания угрозы. Любой стресс — пробки, конфликт, неожиданная задача — выбивает на часы. Восстановление занимает всё больше времени.'
+    ],
+    pains:[
+      'Просыпаешься уже уставшим — сколько бы ни спал',
+      'Раздражительность по мелочам которой раньше не было',
+      'Тяга к солёному и сладкому в течение дня',
+      'После стресса нужен день-два чтобы прийти в норму',
+      'Тревога фоном — даже когда внешне всё хорошо'
+    ],
+    mistakes:[
+      'Пить больше кофе — он дополнительно истощает надпочечники и усиливает тревогу',
+      'Интенсивные тренировки — HIIT и бег для этого типа работают против восстановления',
+      'Силой воли держать ранний подъём — без коррекции ритма это только углубляет проблему',
+      '"Просто отдохнуть в отпуске" — не помогает без работы с кортизольным циклом'
+    ]
+  },
+  mito:{
+    picture:[
+      'Ты устаёшь от вещей которые раньше давались легко. Поход в магазин, встреча с друзьями, рабочий день — после всего этого нужно восстанавливаться. Это не психология.',
+      'Митохондрии — энергетические станции каждой клетки. Когда они работают неэффективно, АТФ (клеточное топливо) производится мало. Тело буквально работает на низком заряде.',
+      'Кофе даёт иллюзию энергии на 1-2 часа — потом яма ещё глубже. Это потому что он не решает дефицит на клеточном уровне, а только маскирует сигнал усталости.'
+    ],
+    pains:[
+      'Усталость которая не проходит после отдыха и сна',
+      'Нет сил на то что раньше было нормой',
+      'После еды — тяжесть и сонливость вместо энергии',
+      'Мышечная слабость без физической нагрузки',
+      'Ощущение что работаешь на 50% от своего потенциала'
+    ],
+    mistakes:[
+      'Пить больше кофе — стимуляторы ускоряют износ митохондрий',
+      'Есть меньше чтобы похудеть — при митохондриальном типе дефицит калорий усугубляет ситуацию',
+      'Ждать что само пройдёт — митохондриальная дисфункция без протокола только прогрессирует',
+      'Принимать общие витамины — нужны конкретные кофакторы: CoQ10, NAD+, магний'
+    ]
+  },
+  hormonal:{
+    picture:[
+      'Вес набирается даже когда питание не изменилось. Сброс требует огромных усилий и быстро возвращается. Это не слабая воля — это инсулинорезистентность и гормональный дисбаланс.',
+      'Настроение меняется без видимой причины. Утром нормально — к вечеру раздражение или апатия. Цикл нестабилен. Восстановление после стресса или болезни занимает больше чем раньше.',
+      'Эндокринная система управляет энергией, метаболизмом и настроением одновременно. Когда она разбалансирована — страдает всё сразу.'
+    ],
+    pains:[
+      'Нестабильный вес при одинаковом питании',
+      'Перепады настроения без очевидной причины',
+      'Медленное восстановление после любого стресса',
+      'Отёки, особенно к вечеру',
+      'Тяга к сладкому — особенно во второй половине дня'
+    ],
+    mistakes:[
+      'Жёсткие диеты с сильным дефицитом — резко повышают кортизол и ухудшают гормональный фон',
+      'Много кардио — для этого типа избыточная нагрузка повышает кортизол',
+      'Игнорировать режим сна — именно ночью происходит основная гормональная регуляция',
+      'Принимать гормоны без коррекции питания и образа жизни — не даёт устойчивого результата'
+    ]
+  },
+  balanced:{
+    picture:[
+      'Твои системы работают без критических сбоев — это уже много. Большинство людей с похожим ритмом жизни чувствуют себя значительно хуже.',
+      'При этом "нормально" — не потолок. Есть конкретные точки роста которые дадут стабильно высокую энергию, а не просто отсутствие усталости.',
+      'Следующий уровень — это когда энергия есть с запасом: на работу, на близких, на себя. Без кофе как обязательного условия и без провалов в середине дня.'
+    ],
+    pains:[
+      'Хочется больше энергии — её хватает но без запаса',
+      'Периодические спады во второй половине дня',
+      'Восстановление после интенсивных периодов занимает время',
+      'Чувство что работаешь на 70-80% от возможного',
+      'Хочется стабильности — без зависимости от кофе и режима'
+    ],
+    mistakes:[
+      'Думать что раз "нормально" — значит всё хорошо. Профилактика эффективнее восстановления',
+      'Игнорировать нутрицевтики — при хорошем самочувствии их роль недооценивают',
+      'Не отслеживать энергию — без измерений сложно заметить постепенное снижение',
+      'Откладывать оптимизацию на "когда будет хуже"'
+    ]
+  }
+};
+
+const RECS=TYPE_DETAIL; // keep for compatibility
+
+let cur=0,answers=[];
+let userData={name:'',age:'',email:''};
+let lastResult=null;
+
+function loadUserData(){
+  const saved=localStorage.getItem('eb_userdata');
+  if(saved){
+    try{userData=JSON.parse(saved);}catch(e){}
+  }
+}
+function saveUserData(){
+  const name=document.getElementById('u-name').value.trim();
+  const age=parseInt(document.getElementById('u-age').value);
+  const email=document.getElementById('u-email').value.trim().toLowerCase();
+  let ok=true;
+  document.getElementById('err-name').style.display='none';
+  document.getElementById('err-age').style.display='none';
+  document.getElementById('err-email').style.display='none';
+  if(!name){document.getElementById('err-name').style.display='block';ok=false;}
+  if(!age||age<10||age>100){document.getElementById('err-age').style.display='block';ok=false;}
+  if(!email||!email.includes('@')){document.getElementById('err-email').style.display='block';ok=false;}
+  if(!ok)return;
+  userData={name,age,email};
+  localStorage.setItem('eb_userdata',JSON.stringify(userData));
+  startTest();
+}
+function goToUserData(){
+  loadUserData();
+  if(userData.name&&userData.email){
+    document.getElementById('u-name').value=userData.name;
+    document.getElementById('u-age').value=userData.age;
+    document.getElementById('u-email').value=userData.email;
+  }
+  showScreen('s-userdata');
+}
+function changeUser(){
+  showScreen('s-userdata');
+}
+function startTest(){
+  cur=0;answers=[];
+  showScreen('s-question');
+  updateUserBar();
+  renderQ();
+}
+function updateUserBar(){
+  const bar=document.getElementById('user-bar');
+  if(userData.name){
+    bar.style.display='flex';
+    document.getElementById('user-bar-name').textContent=userData.name+',';
+    document.getElementById('user-bar-email').textContent=userData.email;
+  }else{
+    bar.style.display='none';
+  }
+}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function renderQ(){
+  const q=QS[cur];
+  const sec=SECTIONS.find(s=>s.id===q.s);
+  const pct=Math.round(cur/QS.length*100);
+  document.getElementById('q-section').textContent=sec.label;
+  document.getElementById('q-counter').textContent=(cur+1)+' / '+QS.length;
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const badge=document.getElementById('q-badge');
+  badge.style.background=sec.bg;
+  badge.style.color=sec.color;
+  document.getElementById('q-badge-text').textContent=sec.label;
+  document.getElementById('q-text').textContent=q.q;
+  const hint=document.getElementById('q-hint');
+  if(q.hint){hint.textContent=q.hint;hint.style.display='block';}else{hint.style.display='none';}
+  const optsEl=document.getElementById('opts');
+  optsEl.innerHTML='';
+  q.opts.forEach(([text],i)=>{
+    const div=document.createElement('div');
+    div.className='opt'+(answers[cur]===i?' selected':'');
+    div.innerHTML='<div class="opt-dot"></div><div class="opt-text">'+text+'</div>';
+    div.onclick=()=>selectOpt(i);
+    optsEl.appendChild(div);
+  });
+  document.getElementById('btn-back').style.visibility=cur===0?'hidden':'visible';
+  document.getElementById('btn-next').disabled=answers[cur]===undefined;
+}
+function selectOpt(i){
+  answers[cur]=i;
+  document.querySelectorAll('.opt').forEach((el,idx)=>el.classList.toggle('selected',idx===i));
+  document.getElementById('btn-next').disabled=false;
+}
+function goNext(){if(answers[cur]===undefined)return;cur++;if(cur>=QS.length){showResult();return;}renderQ();}
+function goBack(){if(cur>0){cur--;renderQ();}}
+
+function showResult(){
+  const zoneTotals={},zoneCounts={};
+  SECTIONS.forEach(s=>{zoneTotals[s.id]=0;zoneCounts[s.id]=0;});
+  QS.forEach((q,i)=>{
+    const score=answers[i]!==undefined?q.opts[answers[i]][1]:0;
+    zoneTotals[q.s]+=score;zoneCounts[q.s]++;
+  });
+  const zoneScores={};
+  let totalRaw=0,totalMax=0;
+  SECTIONS.forEach(s=>{
+    const raw=zoneTotals[s.id],max=zoneCounts[s.id]*3;
+    zoneScores[s.id]=Math.round(raw/max*100);
+    totalRaw+=raw;totalMax+=max;
+  });
+  const energyScore=Math.round(totalRaw/totalMax*100);
+  const weakZones=SECTIONS.map(s=>({id:s.id,score:zoneScores[s.id]})).sort((a,b)=>a.score-b.score);
+  // Type classification: find the weakest relevant zone
+  const urlParams=new URLSearchParams(window.location.search);
+  const forceType=urlParams.get('type'); // test mode: ?type=adrenal
+
+  let type;
+  if(forceType && TYPES[forceType]){
+    type=forceType;
+  } else if(energyScore>=70){
+    type='balanced';
+  } else {
+    // Map zones to fatigue types, pick the weakest.
+    // Neuro type removed — cognition score now feeds into mito's composite
+    // (brain fog most commonly traces back to cellular/mitochondrial energy deficit).
+    const typeZoneMap={
+      adrenal: zoneScores['stress'],
+      hormonal: zoneScores['hormones'],
+      mito: Math.min(zoneScores['sleep'], zoneScores['vitality'], zoneScores['movement'], zoneScores['cognition'])
+    };
+    type = Object.entries(typeZoneMap).sort((a,b)=>a[1]-b[1])[0][0];
+  }
+  const t=TYPES[type];
+  document.getElementById('r-score').textContent=energyScore;
+  setTimeout(()=>{document.getElementById('r-bar').style.width=energyScore+'%';},100);
+  const tb=document.getElementById('r-type-badge');
+  tb.textContent=t.label;tb.style.background=t.bbg;tb.style.color=t.badge;
+  document.getElementById('r-type-desc').textContent=t.desc;
+  const zonesEl=document.getElementById('r-zones');
+  zonesEl.innerHTML='';
+  SECTIONS.forEach(s=>{
+    const sc=zoneScores[s.id];
+    const col=sc<40?'#E24B4A':sc<65?'#BA7517':'#1D9E75';
+    zonesEl.innerHTML+='<div class="zone-card"><div class="zone-name">'+s.label+'</div><div class="zone-score" style="color:'+col+'">'+sc+'</div><div class="zone-bar" style="background:'+col+';width:'+sc+'%"></div></div>';
+  });
+  const recsEl=document.getElementById('r-recs');
+  recsEl.innerHTML='';
+  const td=TYPE_DETAIL[type];
+  let html;
+  if(type==='balanced'){
+    html='<div class="rec-section"><div class="rec-section-title" style="color:#1D9E75">Твоя картина</div>';
+    td.picture.forEach(p=>{html+='<div class="rec-item"><div class="rec-dot" style="background:#1D9E75"></div><div class="rec-text">'+p+'</div></div>';});
+    html+='</div>';
+  } else {
+    html='<div class="rec-section"><div class="rec-section-title">Ошибочные пути решения</div>';
+    td.mistakes.forEach(m=>{html+='<div class="rec-item"><div class="rec-dot" style="background:#BA7517"></div><div class="rec-text">'+m+'</div></div>';});
+    html+='</div>';
+  }
+  recsEl.innerHTML=html;
+
+  lastResult={energyScore,type,zoneScores,weakZones:weakZones.slice(0,3)};
+  showScreen('s-result');
+  updateSalesBlock(type);
+  submitToGoogleSheets();
+}
+
+// Type → dedicated landing page (full protocol + 5000/25000/80000 product ladder).
+// Only the 3 active fatigue types (mito/adrenal/hormonal) reach this map —
+// 'balanced' is handled separately in updateSalesBlock() with a no-sales message.
+const TYPE_LANDING_PAGES = {
+  mito: 'protocols/protocol-mitoxondrii.html',
+  adrenal: 'protocols/protocol-nadpochechniki.html',
+  hormonal: 'protocols/protocol-gormony.html',
+};
+
+function updateSalesBlock(type) {
+  const bridgeCard = document.getElementById('bridge-card');
+  const balancedCard = document.getElementById('balanced-card');
+  if (type === 'balanced') {
+    bridgeCard.style.display = 'none';
+    balancedCard.style.display = 'block';
+    return;
+  }
+  bridgeCard.style.display = 'block';
+  balancedCard.style.display = 'none';
+  const url = TYPE_LANDING_PAGES[type] || TYPE_LANDING_PAGES.mito;
+  const typeName = TYPES[type].label;
+  document.getElementById('bridge-title').textContent = typeName + ': почему ты устаёшь и что делать';
+  const bridgeLink = document.getElementById('bridge-link');
+  bridgeLink.href = url;
+  bridgeLink.removeAttribute('target');
+}
+
+function submitToGoogleSheets(){
+  if(!userData.name||!userData.email) return;
+  const statusEl=document.getElementById('submit-status');
+  statusEl.style.display='block';
+  statusEl.className='submit-status';
+  statusEl.textContent='Сохраняем результат...';
+
+  const payload={
+    name:userData.name,
+    age:userData.age,
+    email:userData.email,
+    date:new Date().toLocaleString('ru-RU'),
+    energyScore:lastResult.energyScore,
+    fatigueType:TYPES[lastResult.type].label,
+    zoneScores:JSON.stringify(lastResult.zoneScores),
+    weakZones:lastResult.weakZones.map(z=>z.id).join(',')
+  };
+
+  const params=new URLSearchParams(payload);
+  const url=GOOGLE_SCRIPT_URL+'?'+params.toString();
+
+  // Most reliable method for Google Apps Script - bypasses CORS completely
+  const img=new Image();
+  img.onload=img.onerror=function(){
+    statusEl.className='submit-status success';
+    statusEl.textContent='✓ Результат сохранён';
+  };
+  img.src=url;
+}
+
+function restartTest(){
+  cur=0;answers=[];
+  showScreen('s-intro');
+}
+
+loadUserData();
+</script>
+</body>
+</html>
