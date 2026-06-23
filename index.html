@@ -6,58 +6,58 @@
 <title>Energy Boost — Диагностика энергии</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f3ef;min-height:100vh;padding:32px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f3ef;min-height:100vh;padding:16px;font-size:15px}
 .wrap{max-width:560px;margin:0 auto;padding-bottom:40px}
-.hero{background:#1a1a2e;border-radius:16px;padding:32px 24px;margin-bottom:24px}
-.hero-tag{font-size:19px;font-weight:600;letter-spacing:2px;color:#e8845a;text-transform:uppercase;margin-bottom:22px}
-.hero-title{font-size:28px;font-weight:700;color:#fff;line-height:1.8555;margin-bottom:24px}
-.hero-sub{font-size:22px;color:rgba(255,255,255,0.75);line-height:1.855}
-.card{background:#fff;border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.hero{background:#1a1a2e;border-radius:16px;padding:24px 18px;margin-bottom:16px}
+.hero-tag{font-size:13px;font-weight:600;letter-spacing:1.5px;color:#e8845a;text-transform:uppercase;margin-bottom:14px}
+.hero-title{font-size:22px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:16px}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.75);line-height:1.6}
+.card{background:#fff;border-radius:16px;padding:20px 16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
 .progress-meta{display:flex;justify-content:space-between;margin-bottom:24px}
-.progress-label{font-size:22px;color:#555}
+.progress-label{font-size:14px;color:#555}
 .progress-bar{height:4px;background:#eee;border-radius:2px;margin-bottom:24px}
 .progress-fill{height:4px;background:#e8845a;border-radius:2px;transition:width 0.4s}
-.section-badge{display:inline-flex;align-items:center;gap:6px;font-size:19px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:8px;margin-bottom:24px}
-.q-text{font-size:22px;font-weight:600;color:#1a1a2e;line-height:1.8555;margin-bottom:6px}
-.q-hint{font-size:19px;color:#555;margin-bottom:24px;line-height:1.8555}
+.section-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin-bottom:16px}
+.q-text{font-size:17px;font-weight:600;color:#1a1a2e;line-height:1.4;margin-bottom:6px}
+.q-hint{font-size:13px;color:#555;margin-bottom:16px;line-height:1.5}
 .opts{display:flex;flex-direction:column;gap:16px;margin-bottom:24px}
-.opt{display:flex;align-items:flex-start;gap:16px;padding:13px 15px;border:1.5px solid #eee;border-radius:12px;cursor:pointer;transition:all 0.15s;background:#fff}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1.5px solid #eee;border-radius:12px;cursor:pointer;transition:all 0.15s;background:#fff}
 .opt:hover{border-color:#e8845a;background:#fff8f4}
 .opt.selected{border-color:#e8845a;background:#fff8f4}
 .opt-dot{width:20px;height:20px;border-radius:50%;border:2px solid #ddd;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
 .opt.selected .opt-dot{border-color:#e8845a;background:#e8845a}
 .opt.selected .opt-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:white}
-.opt-text{font-size:22px;color:#2a2a2a;line-height:1.8555}
+.opt-text{font-size:15px;color:#2a2a2a;line-height:1.5}
 .nav{display:flex;justify-content:space-between;gap:14px}
-.btn{padding:13px 20px;border-radius:12px;font-size:19px;font-weight:600;cursor:pointer;border:1.5px solid #ddd;background:#fff;color:#333;transition:all 0.15s;flex:1}
+.btn{padding:12px 16px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:1.5px solid #ddd;background:#fff;color:#333;transition:all 0.15s;flex:1;white-space:nowrap}
 .btn:hover{background:#f5f5f5}
 .btn-primary{background:#1a1a2e;color:white;border-color:#1a1a2e}
 .btn-primary:hover{background:#2a2a4e}
 .btn-primary:disabled{opacity:0.3;cursor:not-allowed}
-.btn-orange{background:#e8845a;color:white;border-color:#e8845a;width:100%;padding:15px;font-size:22px}
+.btn-orange{background:#e8845a;color:white;border-color:#e8845a;width:100%;padding:14px;font-size:16px;font-weight:600;border-radius:12px;white-space:nowrap}
 .btn-orange:hover{background:#d4724a}
 .result-header{background:#1a1a2e;border-radius:16px;padding:32px;margin-bottom:24px}
-.score-label{font-size:22px;color:rgba(255,255,255,0.75);margin-bottom:4px}
+.score-label{font-size:14px;color:rgba(255,255,255,0.75);margin-bottom:4px}
 .score-row{display:flex;align-items:flex-end;gap:16px;margin-bottom:24px}
-.score-big{font-size:62px;font-weight:700;color:#e8845a;line-height:1}
-.score-max{font-size:22px;color:rgba(255,255,255,0.8);margin-bottom:22px}
+.score-big{font-size:48px;font-weight:700;color:#e8845a;line-height:1}
+.score-max{font-size:16px;color:rgba(255,255,255,0.8);margin-bottom:16px}
 .score-bar-bg{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:24px}
 .score-bar-fill{height:8px;border-radius:4px;background:#e8845a;transition:width 1.2s}
-.type-badge{display:inline-block;padding:6px 14px;border-radius:8px;font-size:19px;font-weight:600;margin-bottom:22px}
-.type-desc{font-size:22px;color:rgba(255,255,255,0.85);line-height:1.855}
-.zones-title{font-size:22px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px}
+.type-badge{display:inline-block;padding:5px 12px;border-radius:8px;font-size:14px;font-weight:600;margin-bottom:16px}
+.type-desc{font-size:15px;color:rgba(255,255,255,0.85);line-height:1.6}
+.zones-title{font-size:14px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
 .zones{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-.zone-card{background:#fff;border-radius:12px;padding:32px;border:1.5px solid #eee}
-.zone-name{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.zone-score{font-size:22px;font-weight:700;margin-bottom:6px}
+.zone-card{background:#fff;border-radius:12px;padding:16px 12px;border:1.5px solid #eee}
+.zone-name{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.zone-score{font-size:18px;font-weight:700;margin-bottom:4px}
 .zone-bar{height:3px;border-radius:2px}
-.recs-title{font-size:19px;font-weight:600;color:#1a1a2e;margin-bottom:24px}
+.recs-title{font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:16px}
 .rec-section{margin-bottom:24px}
-.rec-section-title{font-size:22px;font-weight:600;color:#e8845a;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px}
+.rec-section-title{font-size:15px;font-weight:600;color:#e8845a;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
 .rec-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #f0f0f0}
 .rec-item:last-child{border-bottom:none}
 .rec-dot{width:6px;height:6px;border-radius:50%;background:#e8845a;flex-shrink:0;margin-top:6px}
-.rec-text{font-size:22px;color:#333;line-height:1.8555}
+.rec-text{font-size:15px;color:#333;line-height:1.6}
 .screen{display:none}
 .screen.active{display:block}
 
@@ -69,39 +69,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sales-intro-sub{font-size:19px;color:rgba(255,255,255,0.8);line-height:1.8555}
 .sales-intro-sub strong{color:#e8845a;font-weight:600}
 
-.bridge-card{background:#1a1a2e;border-radius:16px;padding:30px 22px;margin-bottom:4px}
-.bridge-tag{font-size:19px;font-weight:700;letter-spacing:2px;color:#e8845a;text-transform:uppercase;margin-bottom:22px}
-.bridge-title{font-size:22px;font-weight:700;color:#fff;line-height:1.85555;margin-bottom:22px}
-.bridge-sub{font-size:19px;color:rgba(255,255,255,0.85);line-height:1.8555;margin-bottom:22px}
-.btn-bridge{display:block;text-align:center;padding:15px;border-radius:12px;font-size:19px;font-weight:700;background:#e8845a;color:#fff;text-decoration:none}
+.bridge-card{background:#1a1a2e;border-radius:16px;padding:20px 16px;margin-bottom:4px}
+.bridge-tag{font-size:13px;font-weight:700;letter-spacing:1.5px;color:#e8845a;text-transform:uppercase;margin-bottom:14px}
+.bridge-title{font-size:17px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:14px}
+.bridge-sub{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:16px}
+.btn-bridge{display:block;text-align:center;padding:14px;border-radius:12px;font-size:15px;font-weight:700;background:#e8845a;color:#fff;text-decoration:none;white-space:nowrap}
 .btn-bridge:hover{background:#d4724a}
 
-.balanced-card{background:#fff;border:1.5px solid #eee;border-radius:16px;padding:32px 22px}
-.balanced-tag{font-size:19px;font-weight:700;letter-spacing:2px;color:#1D9E75;text-transform:uppercase;margin-bottom:22px}
-.balanced-title{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:22px;line-height:1.85555}
-.balanced-text{font-size:22px;line-height:1.85;color:#444;margin-bottom:22px}
-.balanced-link{display:inline-block;font-size:22px;font-weight:700;color:#e8845a;text-decoration:none}
+.balanced-card{background:#fff;border:1.5px solid #eee;border-radius:16px;padding:20px 16px}
+.balanced-tag{font-size:13px;font-weight:700;letter-spacing:1.5px;color:#1D9E75;text-transform:uppercase;margin-bottom:14px}
+.balanced-title{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:14px;line-height:1.4}
+.balanced-text{font-size:15px;line-height:1.6;color:#444;margin-bottom:14px}
+.balanced-link{display:inline-block;font-size:15px;font-weight:700;color:#e8845a;text-decoration:none}
 .balanced-link:hover{text-decoration:underline}
 
 .product-cards{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
-.product-card{background:#fff;border-radius:16px;padding:32px;border:1.5px solid #eee;position:relative;overflow:hidden}
-.product-card.featured{border-color:#e8845a;background:#fffaf7;padding:26px}
-.product-card.premium{border-color:#1a1a2e;background:#f8f8fc;padding:26px}
+.product-card{background:#fff;border-radius:16px;padding:20px 16px;border:1.5px solid #eee;position:relative;overflow:hidden}
+.product-card.featured{border-color:#e8845a;background:#fffaf7;padding:20px 16px}
+.product-card.premium{border-color:#1a1a2e;background:#f8f8fc;padding:20px 16px}
 .product-badge{position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:6px}
 .badge-popular{background:#fff3ee;color:#e8845a}
 .badge-max{background:#1a1a2e;color:#fff}
 .product-icon{font-size:22px;margin-bottom:22px}
-.product-name{font-size:19px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.product-title{font-size:22px;font-weight:700;color:#1a1a2e;line-height:1.8555;margin-bottom:24px}
-.product-desc{font-size:19px;color:#444;line-height:1.855;margin-bottom:24px}
-.product-includes{list-style:none;padding:0;margin:0 0 14px 0;display:flex;flex-direction:column;gap:5px}
-.product-includes li{font-size:19px;color:#333;display:flex;align-items:flex-start;gap:16px;line-height:1.855}
+.product-name{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.product-title{font-size:16px;font-weight:700;color:#1a1a2e;line-height:1.4;margin-bottom:14px}
+.product-desc{font-size:14px;color:#444;line-height:1.5;margin-bottom:14px}
+.product-includes{list-style:none;padding:0;margin:0 0 12px 0;display:flex;flex-direction:column;gap:3px}
+.product-includes li{font-size:13px;color:#333;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
 .product-includes li::before{content:'✓';color:#e8845a;font-weight:700;flex-shrink:0;margin-top:0px}
 .product-price-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.product-price{font-size:28px;font-weight:700;color:#1a1a2e}
-.product-price span{font-size:22px;font-weight:400;color:#555}
+.product-price{font-size:22px;font-weight:700;color:#1a1a2e;white-space:nowrap}
+.product-price span{font-size:16px;font-weight:400;color:#555}
 .product-price.price-featured{color:#e8845a}
-.btn-buy{display:inline-block;padding:11px 20px;border-radius:10px;font-size:22px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s}
+.btn-buy{display:inline-block;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s;white-space:nowrap}
 .btn-buy-outline{background:#fff;color:#1a1a2e;border:1.5px solid #ddd;padding:13px 22px}
 .btn-buy-outline:hover{border-color:#1a1a2e}
 .btn-buy-orange{background:#e8845a;color:#fff;padding:13px 22px}
@@ -111,90 +111,90 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .after-pay-hint.visible{display:block}
 .btn-buy-dark:hover{background:#2a2a4e}
 
-.sales-guarantee{background:#f5f3ef;border-radius:12px;padding:18px 16px;display:flex;gap:16px;align-items:flex-start;margin-bottom:4px}
+.sales-guarantee{background:#f5f3ef;border-radius:12px;padding:14px 12px;display:flex;gap:12px;align-items:flex-start;margin-bottom:4px}
 .sales-guarantee-icon{font-size:22px;flex-shrink:0}
-.sales-guarantee-text{font-size:22px;color:#444;line-height:1.855}
+.sales-guarantee-text{font-size:14px;color:#444;line-height:1.5}
 .sales-guarantee-text strong{color:#333;display:block;margin-bottom:2px}
 
 .form-group{margin-bottom:24px}
-.form-label{display:block;font-size:19px;font-weight:600;color:#555;margin-bottom:6px}
-.form-input{width:100%;padding:13px 15px;border:1.5px solid #eee;border-radius:12px;font-size:19px;font-family:inherit;transition:all 0.15s;background:#fff}
+.form-label{display:block;font-size:14px;font-weight:600;color:#555;margin-bottom:5px}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid #eee;border-radius:12px;font-size:15px;font-family:inherit;transition:all 0.15s;background:#fff}
 .form-input:focus{outline:none;border-color:#e8845a;background:#fff8f4}
 .form-input::placeholder{color:#aaa}
-.form-error{font-size:22px;color:#E24B4A;margin-top:4px;display:none}
-.form-hint{font-size:22px;color:#555;margin-top:4px}
-.submit-status{font-size:19px;padding:32px;border-radius:8px;margin-bottom:24px;display:none}
+.form-error{font-size:13px;color:#E24B4A;margin-top:4px;display:none}
+.form-hint{font-size:12px;color:#555;margin-top:4px}
+.submit-status{font-size:14px;padding:16px;border-radius:8px;margin-bottom:16px;display:none}
 .submit-status.success{background:#E1F5EE;color:#0F6E56;border:1px solid #0F6E56}
 .submit-status.error{background:#F5C4B3;color:#993C1D;border:1px solid #993C1D}
-.user-info-bar{background:#1a1a2e;border-radius:12px;padding:32px 16px;margin-bottom:24px;color:#fff;font-size:19px;display:flex;justify-content:space-between;align-items:center}
+.user-info-bar{background:#1a1a2e;border-radius:12px;padding:12px 14px;margin-bottom:16px;color:#fff;font-size:13px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .user-info-bar span{color:rgba(255,255,255,0.85)}
 .user-info-bar strong{color:#e8845a;font-weight:600}
-.change-user-btn{background:rgba(255,255,255,0.1);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:22px;cursor:pointer}
+.change-user-btn{background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 10px;border-radius:8px;font-size:12px;cursor:pointer}
 .change-user-btn:hover{background:rgba(255,255,255,0.2)}
 
 /* Protocol page styles */
-.protocol-wrap{max-width:680px;margin:0 auto;padding:32px 16px 48px}
-.protocol-hero{background:#1a1a2e;border-radius:16px;padding:38px 28px;margin-bottom:24px}
-.protocol-hero-tag{font-size:19px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:22px}
-.protocol-hero-eyebrow{font-size:19px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.protocol-hero-title{font-size:34px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:22px}
-.protocol-hero-sub{font-size:19px;color:rgba(255,255,255,0.85);line-height:1.855;max-width:520px}
-.protocol-card{background:#fff;border-radius:16px;padding:30px 24px;margin-bottom:22px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
-.chapter-label{font-size:19px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px}
-.chapter-title{font-size:22px;font-weight:700;color:#1a1a2e;line-height:1.5;margin-bottom:24px}
-.protocol-p{font-size:19px;line-height:1.95;color:#333;margin-bottom:22px}
-.p{font-size:19px;line-height:1.8;color:#333;margin-bottom:16px}
+.protocol-wrap{max-width:680px;margin:0 auto;padding:16px 12px 32px}
+.protocol-hero{background:#1a1a2e;border-radius:16px;padding:24px 18px;margin-bottom:16px}
+.protocol-hero-tag{font-size:12px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:12px}
+.protocol-hero-eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.protocol-hero-title{font-size:24px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:14px}
+.protocol-hero-sub{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.5;max-width:520px}
+.protocol-card{background:#fff;border-radius:16px;padding:20px 16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.chapter-label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.chapter-title{font-size:17px;font-weight:700;color:#1a1a2e;line-height:1.3;margin-bottom:16px}
+.protocol-p{font-size:14px;line-height:1.7;color:#333;margin-bottom:14px}
+.p{font-size:14px;line-height:1.7;color:#333;margin-bottom:12px}
 .protocol-p:last-child{margin-bottom:0}
 ul.protocol-b{list-style:none;margin:0 0 14px 0;padding:0}
-ul.protocol-b li{font-size:19px;line-height:1.855;color:#333;padding:0 0 10px 22px;position:relative}
+ul.protocol-b li{font-size:14px;line-height:1.6;color:#333;padding:0 0 8px 18px;position:relative}
 ul.protocol-b li::before{content:'';position:absolute;left:4px;top:9px;width:6px;height:6px;border-radius:50%}
 ul.protocol-b li:last-child{padding-bottom:0}
-.callout{border-radius:12px;padding:32px 18px;margin-top:6px}
-.callout-label{font-size:19px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
-.callout-text{font-size:22px;line-height:1.855}
+.callout{border-radius:12px;padding:18px 14px;margin-top:6px}
+.callout-label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.callout-text{font-size:15px;line-height:1.5}
 .factors{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:520px){.factors{grid-template-columns:1fr}}
-.factor{background:#faf9f7;border:1.5px solid #eee;border-radius:12px;padding:32px}
-.factor-num{font-size:19px;font-weight:700;letter-spacing:1px;margin-bottom:6px}
-.factor-title{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:6px;line-height:1.8555}
-.factor-text{font-size:19px;line-height:1.85555;color:#555}
-.result-card{background:#1a1a2e;border-radius:16px;padding:32px 28px;margin-bottom:22px}
+.factor{background:#faf9f7;border:1.5px solid #eee;border-radius:12px;padding:16px 12px}
+.factor-num{font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+.factor-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:4px;line-height:1.4}
+.factor-text{font-size:13px;line-height:1.5;color:#555}
+.result-card{background:#1a1a2e;border-radius:16px;padding:20px 16px;margin-bottom:16px}
 .result-card .chapter-label{color:#fff !important}
 .result-card .chapter-title{color:#fff !important;line-height:1.6}
 .result-card ul.protocol-b li,.result-card ul.b li{color:rgba(255,255,255,0.9) !important;font-size:18px;line-height:1.8}
 .timeline{display:flex;flex-direction:column;gap:0}
 .tl-item{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid #f0f0f0}
 .tl-item:last-child{border-bottom:none;padding-bottom:0}
-.tl-day{flex-shrink:0;width:84px;font-size:19px;font-weight:700}
-.tl-text{font-size:22px;line-height:1.85555;color:#333}
+.tl-day{flex-shrink:0;width:70px;font-size:13px;font-weight:700}
+.tl-text{font-size:14px;line-height:1.5;color:#333}
 .about-top{display:flex;gap:16px;align-items:center;margin-bottom:24px}
-.about-photo{flex-shrink:0;width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;font-weight:700;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.15)}
+.about-photo{flex-shrink:0;width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.15)}
 .about-photo img{width:100%;height:100%;object-fit:cover}
-.about-name{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
-.about-cred{font-size:12.5px;color:#555;line-height:1.8555}
-.about-bio .protocol-p{font-size:22px;line-height:1.8555;color:#444;margin-bottom:24px}
+.about-name{font-size:16px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.about-cred{font-size:11px;color:#555;line-height:1.5}
+.about-bio .protocol-p{font-size:14px;line-height:1.6;color:#444;margin-bottom:14px}
 .ladder-intro{padding:4px 4px 14px}
-.ladder-title{font-size:19px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
-.ladder-sub{font-size:19px;color:#777;line-height:1.85555}
-.product{background:#fff;border-radius:16px;padding:30px 22px;margin-bottom:24px;border:1.5px solid #eee;position:relative}
+.ladder-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
+.ladder-sub{font-size:13px;color:#777;line-height:1.5}
+.product{background:#fff;border-radius:16px;padding:20px 16px;margin-bottom:16px;border:1.5px solid #eee;position:relative}
 .product-badge{position:absolute;top:18px;right:18px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 9px;border-radius:6px}
-.product-icon{font-size:22px;margin-bottom:24px}
-.product-name{font-size:22px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.product-title{font-size:22px;font-weight:700;color:#1a1a2e;line-height:1.8555;margin-bottom:24px;max-width:80%}
-.product-desc{font-size:19px;color:#444;line-height:1.855;margin-bottom:24px}
+.product-icon{font-size:18px;margin-bottom:12px}
+.product-name{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.product-title{font-size:16px;font-weight:700;color:#1a1a2e;line-height:1.4;margin-bottom:14px}
+.product-desc{font-size:14px;color:#444;line-height:1.5;margin-bottom:14px}
 .product-includes{list-style:none;margin:0 0 16px 0;padding:0}
 .product-includes li{font-size:19px;color:#333;padding:0 0 7px 22px;position:relative;line-height:1.8555}
 .product-price-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:4px}
-.product-price{font-size:28px;font-weight:700;color:#1a1a2e}
+.product-price{font-size:22px;font-weight:700;color:#1a1a2e;white-space:nowrap}
 .product-price span{font-size:19px;font-weight:400;color:#555}
-.btn-buy{display:inline-block;padding:11px 18px;border-radius:10px;font-size:22px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s}
-.tier1-gate{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px;font-size:12.5px;color:#555;line-height:1.8555}
+.btn-buy{display:inline-block;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s;white-space:nowrap}
+.tier1-gate{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;font-size:12px;color:#555;line-height:1.5}
 .tier1-gate input{margin-top:3px;flex-shrink:0}
-.tier1-note{font-size:11.5px;color:#a66;margin-top:10px;line-height:1.8555}
-.disclaimer{font-size:11.5px;line-height:1.85;color:#666;padding:18px 4px 0}
+.tier1-note{font-size:11px;color:#a66;margin-top:8px;line-height:1.5}
+.disclaimer{font-size:11px;line-height:1.6;color:#666;padding:14px 4px 0}
 .disclaimer b{color:#777}
 .disclaimer .d-block{margin-bottom:22px}
-.back-btn{background:#1a1a2e;color:#fff;border:none;padding:32px 20px;border-radius:12px;font-size:22px;font-weight:600;cursor:pointer;margin-bottom:24px}
+.back-btn{background:#1a1a2e;color:#fff;border:none;padding:14px 16px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:16px}
 .back-btn:hover{background:#2a2a4e}
 
 /* Type-specific colors - Mito */
@@ -251,16 +251,46 @@ ul.protocol-b li:last-child{padding-bottom:0}
 .badge-tier3{background:#1a1a2e;color:#fff}
 
 @media(max-width:560px){
-  body{padding:12px}
-  .wrap{max-width:100%}
-  .hero{padding:24px 20px}
-  .card{padding:22px}
-  .protocol-card{padding:24px}
-  .about-photo{width:100px;height:100px}
-  .product-card{padding:20px}
-  .product-title{font-size:20px}
-  .chapter-title{font-size:22px}
-  .protocol-hero-title{font-size:28px}
+  body{padding:8px;font-size:14px}
+  .wrap{max-width:100%;padding-bottom:20px}
+  .hero{padding:18px 14px}
+  .card{padding:16px 12px}
+  .protocol-card{padding:16px 12px}
+  .about-photo{width:70px;height:70px}
+  .product-card{padding:16px 12px}
+  .product-title{font-size:15px}
+  .chapter-title{font-size:16px}
+  .protocol-hero-title{font-size:22px}
+  .product-price{font-size:20px}
+  .btn-buy{font-size:13px;padding:10px 14px}
+  .btn{padding:10px 14px;font-size:14px}
+  .btn-orange{padding:12px;font-size:15px}
+  .opt{padding:10px 12px}
+  .opt-text{font-size:14px}
+  .q-text{font-size:16px}
+  .zones{grid-template-columns:repeat(3,1fr);gap:8px}
+  .zone-card{padding:12px 8px}
+  .zone-score{font-size:16px}
+  .zone-name{font-size:8px}
+  .hero-title{font-size:20px}
+  .protocol-hero-title{font-size:20px}
+  .score-big{font-size:40px}
+  .product-price{font-size:20px}
+  .factors{grid-template-columns:1fr;gap:10px}
+  .factor{padding:14px 12px}
+  .bridge-card{padding:16px 12px}
+  .balanced-card{padding:16px 12px}
+  .result-header{padding:20px 16px}
+  .score-big{font-size:40px}
+  .user-info-bar{padding:10px 12px;font-size:12px}
+  .protocol-hero{padding:18px 14px}
+  .result-card{padding:16px 12px}
+  .tl-day{width:60px;font-size:12px}
+  .tl-text{font-size:13px}
+  .product{padding:16px 12px}
+  .ladder-title{font-size:14px}
+  .ladder-sub{font-size:12px}
+  .back-btn{padding:12px 14px;font-size:14px}
 }
 
 
@@ -290,6 +320,196 @@ ul.protocol-b li:last-child{padding-bottom:0}
 .type-mito .result-card ul.protocol-b li::before,
 .type-adrenal .result-card ul.protocol-b li::before,
 .type-hormonal .result-card ul.protocol-b li::before{background:#e8845a !important}
+
+
+
+/* Extra mobile fixes */
+@media(max-width:400px){
+  .product-price-row{flex-direction:column;align-items:flex-start;gap:10px}
+  .btn-buy{width:100%;text-align:center}
+  .zones{grid-template-columns:repeat(3,1fr);gap:6px}
+  .zone-card{padding:10px 6px}
+  .zone-score{font-size:14px}
+  .zone-name{font-size:8px}
+  .hero-title{font-size:20px}
+  .protocol-hero-title{font-size:20px}
+  .score-big{font-size:36px}
+  .product-price{font-size:20px}
+}
+
+
+
+/* ── PAYMENT MODAL ── */
+.modal-overlay{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  padding:16px;
+}
+.modal-overlay.active{display:flex}
+.modal-box{
+  background:#fff;
+  border-radius:20px;
+  padding:28px 22px;
+  max-width:420px;
+  width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  animation:modalIn 0.25s ease;
+}
+@keyframes modalIn{
+  from{opacity:0;transform:translateY(20px) scale(0.95)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.modal-title{
+  font-size:20px;
+  font-weight:700;
+  color:#1a1a2e;
+  margin-bottom:20px;
+  text-align:center;
+}
+.modal-steps{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:24px;
+}
+.modal-step{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+.modal-step-num{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:#e8845a;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  margin-top:1px;
+}
+.modal-step-text{
+  font-size:15px;
+  color:#333;
+  line-height:1.5;
+}
+.modal-step-text strong{
+  color:#1a1a2e;
+  font-weight:600;
+}
+.modal-whatsapp{
+  background:#25D366;
+  color:#fff;
+  border-radius:14px;
+  padding:16px;
+  text-align:center;
+  margin-bottom:20px;
+  text-decoration:none;
+  display:block;
+}
+.modal-whatsapp-icon{
+  font-size:22px;
+  margin-bottom:6px;
+}
+.modal-whatsapp-text{
+  font-size:15px;
+  font-weight:600;
+}
+.modal-whatsapp-sub{
+  font-size:13px;
+  opacity:0.9;
+  margin-top:2px;
+}
+.modal-note{
+  font-size:13px;
+  color:#888;
+  text-align:center;
+  margin-bottom:20px;
+  line-height:1.5;
+}
+.modal-actions{
+  display:flex;
+  gap:10px;
+}
+.modal-btn{
+  flex:1;
+  padding:14px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  text-align:center;
+  text-decoration:none;
+}
+.modal-btn-cancel{
+  background:#f5f5f5;
+  color:#666;
+}
+.modal-btn-pay{
+  background:#e8845a;
+  color:#fff;
+}
+.modal-btn-pay:hover{background:#d4724a}
+
+/* Success page */
+.success-wrap{
+  text-align:center;
+  padding:40px 20px;
+}
+.success-icon{
+  font-size:64px;
+  margin-bottom:20px;
+}
+.success-title{
+  font-size:24px;
+  font-weight:700;
+  color:#1a1a2e;
+  margin-bottom:12px;
+}
+.success-text{
+  font-size:15px;
+  color:#555;
+  line-height:1.6;
+  margin-bottom:24px;
+}
+.success-whatsapp{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:#25D366;
+  color:#fff;
+  padding:16px 28px;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:600;
+  text-decoration:none;
+  margin-bottom:16px;
+}
+.success-hint{
+  font-size:13px;
+  color:#888;
+}
+
+@media(max-width:560px){
+  .modal-box{padding:22px 16px}
+  .modal-title{font-size:17px}
+  .modal-step-text{font-size:14px}
+  .modal-whatsapp{padding:14px}
+  .modal-whatsapp-text{font-size:14px}
+  .modal-btn{padding:12px;font-size:14px}
+  .success-title{font-size:20px}
+  .success-text{font-size:14px}
+  .success-whatsapp{padding:14px 20px;font-size:14px}
+}
 
 </style>
 </head>
@@ -885,7 +1105,7 @@ const PROTOCOL_TEMPLATES = {
     <ul class="product-includes"><li>На сколько часов раньше вставать в фазе перезапуска — по дням</li><li>Температурный протокол перед сном — цифры и тайминг</li><li>Список продуктов со скрытыми стимуляторами которые надо убрать</li><li>Дозировки магния и форма приёма</li><li>Ожидаемые сроки перестройки по дням</li></ul>
     <div class="product-price-row">
       <div class="product-price">5 000 <span>₸</span></div>
-      <a id="buy-mito" class="btn-buy btn-buy-tier1" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить протокол →</a>
+      <button class="btn-buy btn-buy-tier1" data-pay='{"type":"mito","tier":1,"price":5000}'>Получить протокол →</button>
     </div>
     </div>
 
@@ -905,7 +1125,7 @@ const PROTOCOL_TEMPLATES = {
     </ul>
     <div class="product-price-row">
       <div class="product-price">25 000 <span>₸</span></div>
-      <a class="btn-buy btn-buy-tier2" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить разбор →</a>
+      <button class="btn-buy btn-buy-tier2" data-pay='{"type":"mito","tier":2,"price":25000}'>Получить разбор →</button>
     </div>
   </div>
 
@@ -925,7 +1145,7 @@ const PROTOCOL_TEMPLATES = {
     </ul>
     <div class="product-price-row">
       <div class="product-price">80 000 <span>₸</span></div>
-      <a class="btn-buy btn-buy-tier3" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Записаться →</a>
+      <button class="btn-buy btn-buy-tier3" data-pay='{"type":"mito","tier":3,"price":80000}'>Записаться →</button>
     </div>
   </div>
 
@@ -1051,7 +1271,7 @@ const PROTOCOL_TEMPLATES = {
     <ul class="product-includes"><li>Точное время и состав вечернего буфера под типовой график сна</li><li>Расписание света по часам — утро и вечер</li><li>Дыхательная практика для вечера — пошагово</li><li>До какого часа допустим кофеин при этом типе</li><li>Ожидаемые сроки перестройки по дням</li></ul>
     <div class="product-price-row">
       <div class="product-price">5 000 <span>₸</span></div>
-      <a id="buy-adrenal" class="btn-buy btn-buy-tier1" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить протокол →</a>
+      <button class="btn-buy btn-buy-tier1" data-pay='{"type":"adrenal","tier":1,"price":5000}'>Получить протокол →</button>
     </div>
     </div>
 
@@ -1071,7 +1291,7 @@ const PROTOCOL_TEMPLATES = {
     </ul>
     <div class="product-price-row">
       <div class="product-price">25 000 <span>₸</span></div>
-      <a class="btn-buy btn-buy-tier2" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить разбор →</a>
+      <button class="btn-buy btn-buy-tier2" data-pay='{"type":"mito","tier":2,"price":25000}'>Получить разбор →</button>
     </div>
   </div>
 
@@ -1091,7 +1311,7 @@ const PROTOCOL_TEMPLATES = {
     </ul>
     <div class="product-price-row">
       <div class="product-price">80 000 <span>₸</span></div>
-      <a class="btn-buy btn-buy-tier3" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Записаться →</a>
+      <button class="btn-buy btn-buy-tier3" data-pay='{"type":"mito","tier":3,"price":80000}'>Записаться →</button>
     </div>
   </div>
 
@@ -1217,7 +1437,7 @@ const PROTOCOL_TEMPLATES = {
     <ul class="product-includes"><li>Точный состав и порядок первого приёма пищи</li><li>Порядок продуктов на тарелке — по шагам</li><li>Дозировки нутрицевтической поддержки (берберин, хром, магний)</li><li>Сколько и когда двигаться после еды</li><li>Ожидаемые сроки изменений по дням</li></ul>
     <div class="product-price-row">
       <div class="product-price">5 000 <span>₸</span></div>
-      <a id="buy-hormonal" class="btn-buy btn-buy-tier1" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить протокол →</a>
+      <button class="btn-buy btn-buy-tier1" data-pay='{"type":"hormonal","tier":1,"price":5000}'>Получить протокол →</button>
     </div>
     </div>
 
@@ -1237,7 +1457,7 @@ const PROTOCOL_TEMPLATES = {
     </ul>
     <div class="product-price-row">
       <div class="product-price">25 000 <span>₸</span></div>
-      <a class="btn-buy btn-buy-tier2" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Получить разбор →</a>
+      <button class="btn-buy btn-buy-tier2" data-pay='{"type":"mito","tier":2,"price":25000}'>Получить разбор →</button>
     </div>
   </div>
 
@@ -1257,7 +1477,7 @@ const PROTOCOL_TEMPLATES = {
     </ul>
     <div class="product-price-row">
       <div class="product-price">80 000 <span>₸</span></div>
-      <a class="btn-buy btn-buy-tier3" href="https://pay.kaspi.kz/pay/ejwobdv1" target="_blank">Записаться →</a>
+      <button class="btn-buy btn-buy-tier3" data-pay='{"type":"mito","tier":3,"price":80000}'>Записаться →</button>
     </div>
   </div>
 
@@ -1282,12 +1502,136 @@ function showProtocol() {
     document.getElementById('protocol-content').innerHTML = template;
     showScreen('s-protocol');
     window.scrollTo(0, 0);
+
   }
 }
 
 function backToResult() {
   showScreen('s-result');
 }
+
+// Global click delegation for payment buttons
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-pay]');
+  if (btn) {
+    e.preventDefault();
+    var data = JSON.parse(btn.getAttribute('data-pay'));
+    showPayModal(data.type, data.tier, data.price);
+  }
+});
+
+
+
+// ── PAYMENT FUNCTIONS (global) ──
+var currentPayUrl = '';
+
+function showPayModal(type, tier, price) {
+  var titles = {
+    1: 'Получить протокол',
+    2: 'Получить разбор',
+    3: 'Записаться на созвон'
+  };
+  document.getElementById('modal-title').textContent = titles[tier];
+  document.getElementById('modal-price').textContent = price.toLocaleString('ru-RU') + ' ₸';
+
+  var userEmail = (typeof userData !== 'undefined' && userData.email) ? userData.email : '';
+  var userName = (typeof userData !== 'undefined' && userData.name) ? userData.name : '';
+  var typeLabel = (typeof TYPES !== 'undefined' && TYPES[type]) ? TYPES[type].label : type;
+
+  var waText = encodeURIComponent(
+    'Здравствуйте! Я прошла диагностику Energy Boost.\n' +
+    'Тип: ' + typeLabel + '\n' +
+    'Тариф: ' + titles[tier] + '\n' +
+    'Email: ' + userEmail + '\n' +
+    'Имя: ' + userName + '\n\n' +
+    'Прилагаю скрин чека оплаты.'
+  );
+  document.getElementById('modal-whatsapp').href = 'https://wa.me/77759981592?text=' + waText;
+
+  currentPayUrl = 'https://pay.kaspi.kz/pay/ejwobdv1';
+
+  document.getElementById('pay-modal').classList.add('active');
+}
+
+function closePayModal() {
+  document.getElementById('pay-modal').classList.remove('active');
+}
+
+function goToPayment() {
+  closePayModal();
+  window.open(currentPayUrl, '_blank');
+  setTimeout(function() {
+    if (typeof showScreen === 'function') {
+      showScreen('s-success');
+    }
+  }, 500);
+}
+
+// Закрытие по клику вне модалки
+document.addEventListener('DOMContentLoaded', function() {
+  var modalOverlay = document.getElementById('pay-modal');
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === this) closePayModal();
+    });
+  }
+});
 </script>
+
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="pay-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title">Получить протокол</div>
+    <div class="modal-steps">
+      <div class="modal-step">
+        <div class="modal-step-num">1</div>
+        <div class="modal-step-text">Нажмите <strong>«Оплатить»</strong> — откроется Kaspi Pay</div>
+      </div>
+      <div class="modal-step">
+        <div class="modal-step-num">2</div>
+        <div class="modal-step-text">Оплатите <strong id="modal-price">5 000 ₸</strong></div>
+      </div>
+      <div class="modal-step">
+        <div class="modal-step-num">3</div>
+        <div class="modal-step-text">Пришлите скрин чека в WhatsApp — и мы вышлем протокол в течение <strong>15 минут</strong></div>
+      </div>
+    </div>
+    <a class="modal-whatsapp" id="modal-whatsapp" href="https://wa.me/77759981592" target="_blank">
+      <div class="modal-whatsapp-icon">💬</div>
+      <div class="modal-whatsapp-text">Написать в WhatsApp</div>
+      <div class="modal-whatsapp-sub">+7 775 998 15 92</div>
+    </a>
+    <div class="modal-note">Если уже оплатили — просто нажмите кнопку WhatsApp и пришлите скрин чека</div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-cancel" onclick="closePayModal()">Отмена</button>
+      <button class="modal-btn modal-btn-pay" id="modal-pay-btn" onclick="goToPayment()">💳 Оплатить</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN (hidden by default) -->
+<div id="s-success" class="screen">
+  <div class="wrap">
+    <div class="success-wrap">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Спасибо за оплату!</div>
+      <div class="success-text">
+        Чтобы получить протокол, пришлите скрин чека в WhatsApp.<br>
+        Мы вышлем материал в течение 15 минут.
+      </div>
+      <a class="success-whatsapp" href="https://wa.me/77759981592" target="_blank">
+        <span>💬</span> Написать в WhatsApp
+      </a>
+      <div class="success-hint">+7 775 998 15 92 · Зауре</div>
+      <br><br>
+      <button class="btn-orange" style="border-radius:12px;margin-top:16px" onclick="backToResult()">← Назад к результату</button>
+    </div>
+  </div>
+</div>
+
+
+
+
 </body>
 </html>
