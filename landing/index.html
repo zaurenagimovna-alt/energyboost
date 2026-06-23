@@ -1,0 +1,60 @@
+function doGet(e) {
+  return handleRequest(e.parameter);
+}
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    return handleRequest(data);
+  } catch(err) {
+    return handleRequest(e.parameter);
+  }
+}
+function handleRequest(data) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (data.sheet === 'pdf_leads') {
+    // Пишем в лист PDF Leads
+    let pdfSheet = ss.getSheetByName('PDF Leads');
+    if (!pdfSheet) {
+      pdfSheet = ss.insertSheet('PDF Leads');
+      pdfSheet.appendRow(['Дата', 'Имя', 'Телефон', 'Email', 'Тип усталости', 'Зоны (JSON)']);
+    }
+    pdfSheet.appendRow([
+      data.date || new Date().toLocaleString('ru-RU'),
+      data.name || '',
+      data.phone || '',
+      data.email || '',
+      data.fatigueType || '',
+      data.zoneScores || ''
+    ]);
+  } else if (data.sheet === 'landing_clicks') {
+    // Пишем в лист Лендинг_клики
+    let landingSheet = ss.getSheetByName('Лендинг_клики');
+    if (!landingSheet) {
+      landingSheet = ss.insertSheet('Лендинг_клики');
+      landingSheet.appendRow(['Дата', 'Кнопка', 'Блок', 'Источник (UTM)', 'User Agent']);
+    }
+    landingSheet.appendRow([
+      data.date || new Date().toLocaleString('ru-RU'),
+      data.button || '',
+      data.block || '',
+      data.source || '',
+      data.userAgent || ''
+    ]);
+  } else {
+    // Пишем в основной лист как раньше
+    const sheet = ss.getActiveSheet();
+    sheet.appendRow([
+      data.date || new Date().toLocaleString('ru-RU'),
+      data.name || '',
+      data.age || '',
+      data.email || '',
+      data.energyScore || '',
+      data.fatigueType || '',
+      data.zoneScores || '',
+      data.weakZones || ''
+    ]);
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({status: 'ok'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
