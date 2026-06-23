@@ -1,60 +1,499 @@
-function doGet(e) {
-  return handleRequest(e.parameter);
-}
-function doPost(e) {
-  try {
-    const data = JSON.parse(e.postData.contents);
-    return handleRequest(data);
-  } catch(err) {
-    return handleRequest(e.parameter);
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Boost — Почему ты устаёшь, даже если «всё нормально»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F7F2EC;
+    --ink: #2B2420;
+    --rust: #8C4A3D;
+    --rust-deep: #6E3A30;
+    --ochre: #C68A3D;
+    --muted: #8C8275;
+    --card: #EFE7DA;
+    --card-line: #E0D5C4;
+    --max: 720px;
   }
-}
-function handleRequest(data) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (data.sheet === 'pdf_leads') {
-    // Пишем в лист PDF Leads
-    let pdfSheet = ss.getSheetByName('PDF Leads');
-    if (!pdfSheet) {
-      pdfSheet = ss.insertSheet('PDF Leads');
-      pdfSheet.appendRow(['Дата', 'Имя', 'Телефон', 'Email', 'Тип усталости', 'Зоны (JSON)']);
-    }
-    pdfSheet.appendRow([
-      data.date || new Date().toLocaleString('ru-RU'),
-      data.name || '',
-      data.phone || '',
-      data.email || '',
-      data.fatigueType || '',
-      data.zoneScores || ''
-    ]);
-  } else if (data.sheet === 'landing_clicks') {
-    // Пишем в лист Лендинг_клики
-    let landingSheet = ss.getSheetByName('Лендинг_клики');
-    if (!landingSheet) {
-      landingSheet = ss.insertSheet('Лендинг_клики');
-      landingSheet.appendRow(['Дата', 'Кнопка', 'Блок', 'Источник (UTM)', 'User Agent']);
-    }
-    landingSheet.appendRow([
-      data.date || new Date().toLocaleString('ru-RU'),
-      data.button || '',
-      data.block || '',
-      data.source || '',
-      data.userAgent || ''
-    ]);
-  } else {
-    // Пишем в основной лист как раньше
-    const sheet = ss.getActiveSheet();
-    sheet.appendRow([
-      data.date || new Date().toLocaleString('ru-RU'),
-      data.name || '',
-      data.age || '',
-      data.email || '',
-      data.energyScore || '',
-      data.fatigueType || '',
-      data.zoneScores || '',
-      data.weakZones || ''
-    ]);
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
   }
-  return ContentService
-    .createTextOutput(JSON.stringify({status: 'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 24px;
+  }
+  section{
+    padding:64px 0;
+  }
+  section.tight{ padding:40px 0; }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  h1{
+    font-size:clamp(28px, 6.5vw, 42px);
+    line-height:1.18;
+  }
+  h2{
+    font-size:clamp(22px, 5vw, 30px);
+    line-height:1.25;
+  }
+  p{ color:var(--ink); }
+  .lede{
+    font-size:17px;
+    color:#4A4138;
+    margin-top:18px;
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--rust);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+
+  .hero{
+    padding:72px 0 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-120px; right:-160px;
+    width:380px; height:380px;
+    background:radial-gradient(circle, rgba(198,138,61,0.22), transparent 70%);
+    pointer-events:none;
+  }
+  .hero-card{
+    position:relative;
+    z-index:1;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--rust);
+    color:#FBF6EF;
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    padding:16px 26px;
+    border-radius:100px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+    box-shadow:0 6px 18px rgba(140,74,61,0.28);
+  }
+  .btn:hover{
+    background:var(--rust-deep);
+    transform:translateY(-1px);
+    box-shadow:0 8px 22px rgba(140,74,61,0.34);
+  }
+  .btn:active{ transform:translateY(0px); }
+  .btn-arrow{ transition:transform .15s ease; }
+  .btn:hover .btn-arrow{ transform:translateX(3px); }
+  .btn-row{ margin-top:30px; }
+
+  .mirror-list{
+    list-style:none;
+    margin-top:28px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .mirror-list li{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    font-size:16px;
+    padding:14px 16px;
+    background:var(--card);
+    border:1px solid var(--card-line);
+    border-radius:14px;
+  }
+  .mirror-list li::before{
+    content:"";
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--ochre);
+    margin-top:9px;
+    flex-shrink:0;
+  }
+
+  .key-phrase{
+    margin:36px 0;
+    padding:30px 28px;
+    background:var(--rust);
+    border-radius:18px;
+  }
+  .key-phrase p{
+    color:#FBF6EF;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(19px, 4vw, 23px);
+    line-height:1.4;
+  }
+
+  .quote{
+    margin-top:28px;
+    padding-left:20px;
+    border-left:3px solid var(--ochre);
+  }
+  .quote p{
+    font-size:16px;
+    color:#4A4138;
+    font-style:italic;
+  }
+  .quote .signature{
+    margin-top:10px;
+    font-style:normal;
+    font-size:13px;
+    color:var(--muted);
+    letter-spacing:0.02em;
+  }
+
+  .levers{ margin-top:36px; }
+  .levers-svg-wrap{ width:100%; margin-bottom:8px; }
+  .lever-row{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:24px;
+  }
+  .lever-item{ display:flex; gap:16px; align-items:flex-start; }
+  .lever-dot{
+    width:38px; height:38px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:15px;
+    color:#fff;
+    margin-top:2px;
+  }
+  .lever-text h3{ font-size:18px; margin-bottom:4px; }
+  .lever-text p{ font-size:15px; color:#5B5246; }
+
+  .diag-block{
+    background:var(--card);
+    border:1px solid var(--card-line);
+    border-radius:20px;
+    padding:36px 28px;
+    margin-top:20px;
+  }
+  .diag-list{
+    list-style:none;
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .diag-list li{ display:flex; gap:12px; font-size:16px; }
+  .diag-list li::before{
+    content:"→";
+    color:var(--rust);
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .diag-note{ margin-top:22px; font-size:13px; color:var(--muted); }
+  .diag-note strong{ color:var(--ink); }
+
+  .after-list{
+    list-style:none;
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .after-list li{
+    font-size:16px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--card-line);
+  }
+  .after-list li:last-child{ border-bottom:none; padding-bottom:0; }
+  .after-list .num{
+    font-family:'Fraunces', serif;
+    color:var(--ochre);
+    font-weight:600;
+    margin-right:10px;
+  }
+
+  .objections{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:24px;
+  }
+  @media (max-width:480px){ .objections{ grid-template-columns:1fr; } }
+  .obj-item{
+    background:var(--card);
+    border:1px solid var(--card-line);
+    border-radius:14px;
+    padding:18px 16px;
+    font-size:14.5px;
+  }
+  .obj-item .x{ color:var(--rust); font-weight:700; margin-right:6px; }
+
+  .trust{
+    background:var(--ink);
+    color:#F0E9DD;
+    border-radius:20px;
+    padding:34px 28px;
+  }
+  .trust p{ color:#E6DCC9; font-size:16px; }
+  .trust p + p{ margin-top:14px; }
+
+  .final{ text-align:center; padding:56px 0 80px; }
+  .final h2{ font-size:clamp(24px,6vw,32px); }
+  .final .lede{ max-width:480px; margin:18px auto 0; }
+  .final .btn-row{ display:flex; flex-direction:column; align-items:center; }
+
+  footer{
+    text-align:center;
+    padding:30px 0 50px;
+    font-size:12px;
+    color:var(--muted);
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap hero-card">
+    <span class="eyebrow">Energy Boost · Бесплатная диагностика</span>
+    <h1>Почему ты устаёшь, даже если «всё нормально» — и почему вес от этого не уходит</h1>
+    <p class="lede">
+      Если ты спишь, стараешься питаться правильно, но всё равно: нет сил, вес не уходит или возвращается, есть тяга к сладкому и кофе, утро начинается уже уставшей — дело не в дисциплине.
+    </p>
+    <p class="lede">
+      Это признак того, что организм работает в режиме экономии энергии — а в этом режиме он не отдаёт вес, как бы ты ни старалась.
+    </p>
+    <div class="btn-row">
+      <a href="#" class="btn" data-block="hero" data-button="Узнать причину своей усталости" onclick="goToDiagnostic(event)">
+        Узнать причину своей усталости <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <h2>Это может быть про тебя</h2>
+    <ul class="mirror-list">
+      <li>Просыпаешься уже уставшей</li>
+      <li>Кофе нужен, чтобы «запуститься»</li>
+      <li>Вечером нет сил ни на что</li>
+      <li>Диеты дают эффект, но потом откат</li>
+      <li>Тянет на сладкое или «заедание»</li>
+      <li>Вес держится, несмотря на усилия</li>
+      <li>Ощущение, что тело «не слушается»</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Проблема не в еде и не в силе воли</h2>
+    <p class="lede">
+      В большинстве случаев хроническая усталость связана не с количеством калорий, а с тем, как организм распределяет энергию.
+    </p>
+    <p class="lede">Если система перегружена — тело:</p>
+    <ul class="diag-list" style="margin-top:14px;">
+      <li>снижает обмен веществ</li>
+      <li>усиливает тягу к быстрым источникам энергии — сладкое, кофе</li>
+      <li>хуже восстанавливается во сне</li>
+      <li>держится за вес как за резерв — в режиме экономии расставаться с запасами для тела опасно</li>
+    </ul>
+    <p class="lede">Поэтому попытки «собраться» и «держать диету» часто дают обратный эффект.</p>
+
+    <div class="key-phrase">
+      <p>Тело не худеет в состоянии истощения.<br>Оно защищается.</p>
+    </div>
+
+    <div class="quote">
+      <p>За 20 лет работы я не встречала клиентку, которая срывалась бы из-за слабой воли. Срывается тело, которому не хватает ресурса — и оно берёт его единственным доступным способом, через еду. Это не характер. Это физиология.</p>
+      <p class="signature">— Зауре, нутрициолог, 20 лет практики</p>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <h2>Почему энергия падает</h2>
+    <p class="lede">У каждого человека есть три базовых фактора, которые влияют на уровень энергии.</p>
+
+    <div class="levers">
+      <div class="levers-svg-wrap">
+        <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;">
+          <circle cx="220" cy="100" r="88" fill="none" stroke="#8C4A3D" stroke-width="2" opacity="0.55"/>
+          <circle cx="320" cy="100" r="88" fill="none" stroke="#C68A3D" stroke-width="2" opacity="0.65"/>
+          <circle cx="420" cy="100" r="88" fill="none" stroke="#2B2420" stroke-width="2" opacity="0.35"/>
+          <circle cx="220" cy="100" r="5" fill="#8C4A3D"/>
+          <circle cx="320" cy="100" r="5" fill="#C68A3D"/>
+          <circle cx="420" cy="100" r="5" fill="#2B2420"/>
+          <text x="220" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#8C8275">Восстановление</text>
+          <text x="320" y="40" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#8C8275">Топливо</text>
+          <text x="420" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#8C8275">Расход</text>
+        </svg>
+      </div>
+
+      <div class="lever-row">
+        <div class="lever-item">
+          <div class="lever-dot" style="background:#8C4A3D;">1</div>
+          <div class="lever-text">
+            <h3>Восстановление</h3>
+            <p>Сон, режим, перегрузка нервной системы</p>
+          </div>
+        </div>
+        <div class="lever-item">
+          <div class="lever-dot" style="background:#C68A3D;">2</div>
+          <div class="lever-text">
+            <h3>Топливо</h3>
+            <p>Питание, скачки сахара, дефициты</p>
+          </div>
+        </div>
+        <div class="lever-item">
+          <div class="lever-dot" style="background:#2B2420;">3</div>
+          <div class="lever-text">
+            <h3>Расход энергии</h3>
+            <p>Стресс, тревога, информационная перегрузка</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:24px;">Если хотя бы один блок перегружен — появляется хроническая усталость.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Что ты получишь после диагностики</h2>
+    <div class="diag-block">
+      <p class="lede" style="margin-top:0;">За 3–5 минут ты узнаешь:</p>
+      <ul class="diag-list">
+        <li>Какой из механизмов усталости сейчас у тебя в приоритете</li>
+        <li>Что именно сейчас «съедает» твою энергию</li>
+        <li>Почему вес и усталость связаны именно в твоём случае</li>
+        <li>С чего начать, чтобы появился первый результат</li>
+      </ul>
+      <p class="diag-note"><strong>Важно:</strong> это не тест «для интереса». Это система первичной оценки состояния.</p>
+      <div class="btn-row">
+        <a href="#" class="btn" data-block="diagnostic_core" data-button="Пройти диагностику бесплатно" onclick="goToDiagnostic(event)">
+          Пройти диагностику бесплатно <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <h2>После диагностики ты получишь</h2>
+    <ul class="after-list">
+      <li><span class="num">01</span>Разбор твоего типа усталости</li>
+      <li><span class="num">02</span>Ключевые причины, которые держат состояние</li>
+      <li><span class="num">03</span>Первые шаги — что менять сразу, без сложных систем</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Это не диета</h2>
+    <div class="objections">
+      <div class="obj-item"><span class="x">×</span>Нет запретов и списков «нельзя»</div>
+      <div class="obj-item"><span class="x">×</span>Нет марафонов и жёстких режимов</div>
+      <div class="obj-item"><span class="x">×</span>Нет обещаний «минус 10 кг»</div>
+      <div class="obj-item"><span class="x">×</span>Нет необходимости менять всё сразу</div>
+    </div>
+    <p class="lede">Это вход в понимание своего состояния.</p>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="trust">
+      <p>Я работаю с женщинами, которые устали от бесконечных диет и возврата веса.</p>
+      <p>Чаще всего проблема не в усилиях, а в том, что тело работает в режиме перегрузки.</p>
+      <p>Задача диагностики — это не оценка, а понимание исходной точки.</p>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Узнай, почему ты устаёшь</h2>
+    <p class="lede">3–5 минут. Бесплатно. Без диет и обязательств.</p>
+    <div class="btn-row">
+      <a href="#" class="btn" data-block="final_cta" data-button="Начать диагностику" onclick="goToDiagnostic(event)">
+        Начать диагностику <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>Energy Boost · energyboost.kz</footer>
+
+<script>
+  const DIAGNOSTIC_URL = "https://zaurenagimovna-alt.github.io/energyboost/";
+  const TRACK_URL = "https://script.google.com/macros/s/AKfycbxdzHeYCwg3TM_QKeMvSFSstUZRUrj0e88u6p7C2z3I6KkQUuhILJ8JEEKtpoo3n18/exec";
+
+  function getUTMSource() {
+    const params = new URLSearchParams(window.location.search);
+    const utm = ['utm_source','utm_medium','utm_campaign'].map(k => params.get(k)).filter(Boolean);
+    return utm.length ? utm.join('/') : (document.referrer || 'direct');
+  }
+
+  function trackClick(button, block) {
+    const payload = {
+      sheet: 'landing_clicks',
+      date: new Date().toLocaleString('ru-RU'),
+      button: button,
+      block: block,
+      source: getUTMSource(),
+      userAgent: navigator.userAgent
+    };
+    fetch(TRACK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  }
+
+  function goToDiagnostic(e) {
+    e.preventDefault();
+    const button = e.currentTarget.getAttribute('data-button');
+    const block = e.currentTarget.getAttribute('data-block');
+    trackClick(button, block);
+    setTimeout(() => { window.location.href = DIAGNOSTIC_URL; }, 120);
+  }
+</script>
+
+</body>
+</html>Service.MimeType.JSON);
 }
